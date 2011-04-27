@@ -2,7 +2,7 @@
 # Survey.t - Survey tests
 # Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 # --
-# $Id: Survey.t,v 1.15.2.1 2011-04-20 14:56:29 mh Exp $
+# $Id: Survey.t,v 1.15.2.2 2011-04-27 14:32:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -314,12 +314,14 @@ my @Tests = (
 );
 
 for my $Test (@Tests) {
+
     if ( $Test->{'Survey::SendPeriod'} ) {
-        $Self->{ConfigObject}->Set(
+        $ConfigObject->Set(
             Key   => 'Survey::SendPeriod',
             Value => $Test->{'Survey::SendPeriod'},
         );
     }
+
     if ( $Test->{Sleep} ) {
         sleep $Test->{Sleep};
     }
@@ -335,6 +337,7 @@ for my $Test (@Tests) {
     my ( $HeaderRef, $BodyRef ) = $SurveyObject->RequestSend(
         TicketID => $TicketID,
     );
+    $HeaderRef ||= {};
 
     # check if survey got sent
     if ( $Test->{Result}->[0] ) {
@@ -395,6 +398,7 @@ rif; font-size: 12px;\">Dear customer... =C3=A4=C3=B6=C3=BC</body></html>=
     ( $HeaderRef, $BodyRef ) = $SurveyObject->RequestSend(
         TicketID => $TicketID,
     );
+    $HeaderRef ||= {};
 
     # check if survey got sent
     if ( $Test->{Result}->[1] ) {
