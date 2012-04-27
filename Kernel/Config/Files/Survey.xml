@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Survey.xml,v 1.25 2011-02-16 22:15:11 dz Exp $</CVS>
+    <CVS>$Id: Survey.xml,v 1.25.2.1 2012-04-27 10:03:15 jp Exp $</CVS>
     <ConfigItem Name="Frontend::Module###AgentSurvey" Required="0" Valid="1">
         <Description Lang="en">All parameters for the Survey object in the agent interface.</Description>
         <Description Lang="de">Alle Parameter des Befragungs-Objekts im Agent-Interface.</Description>
@@ -119,6 +119,14 @@
         <SubGroup>Core</SubGroup>
         <Setting>
             <String Regex="">quality@example.com</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Survey::NotificationRecipientBlacklist" Required="0" Valid="1">
+        <Description Translatable="1">Surveys will not be sent to the configured email addresses.</Description>
+        <Group>Survey</Group>
+        <SubGroup>Core</SubGroup>
+        <Setting>
+            <Array></Array>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Survey::NotificationSubject" Required="1" Valid="1">

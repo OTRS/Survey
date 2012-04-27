@@ -1,8 +1,8 @@
 # --
 # Kernel/Language/nl_Survey.pm - translation file
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: nl_Survey.pm,v 1.5 2011-04-11 21:13:25 mb Exp $
+# $Id: nl_Survey.pm,v 1.5.2.1 2012-04-27 10:03:15 jp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -105,6 +105,7 @@ sub Data {
     $Self->{Translation}->{'Days starting from the latest customer survey email between no customer survey email is sent, ( 0 means Always send it ) .'} = '';
     $Self->{Translation}->{'Default body for the notification email to customers about new survey.'} = '';
     $Self->{Translation}->{'Default sender for the notification email to customers about new survey.'} = '';
+    $Self->{Translation}->{'Surveys will not be sent to the configured email addresses.'} = '';
     $Self->{Translation}->{'Default subject for the notification email to customers about new survey.'} = '';
     $Self->{Translation}->{'Defines an overview module to show the small view of a survey list.'} = '';
     $Self->{Translation}->{'Defines the default height for Richtext views for SurveyZoom elements.'} = '';

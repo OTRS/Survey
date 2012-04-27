@@ -1,8 +1,8 @@
 # --
 # Kernel/Language/de_Survey.pm - translation file
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: de_Survey.pm,v 1.5 2011-02-17 17:16:49 dz Exp $
+# $Id: de_Survey.pm,v 1.5.2.1 2012-04-27 10:03:15 jp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -80,6 +80,7 @@ sub Data {
     $Self->{Translation}->{'Days starting from the latest customer survey email between no customer survey email is sent, ( 0 means Always send it ) .'} = 'Anzahl Tage, von der letzten Umfrage-E-Mail an den Kunden, in der keine weitere Umfrage-Email an den Kunden versendet wird (0 bedeutet, dass die E-Mail immer versendet wird).';
     $Self->{Translation}->{'Default body for the notification email to customers about new survey.'} = 'Voreingestellter Text für Benachrichtigungs-Mails an den Kunden über neue Umfragen.';
     $Self->{Translation}->{'Default sender for the notification email to customers about new survey.'} = 'Voreingestellter Absender für Benachrichtigungs-Mails an den Kunden über neue Umfragen.';
+    $Self->{Translation}->{'Surveys will not be sent to the configured email addresses.'} = 'Umfragen werden nicht an die konfigurierten E-Mail-Adressen gesendet.';
     $Self->{Translation}->{'Default subject for the notification email to customers about new survey.'} = 'Voreingestellter Betreff für Benachrichtigungs-Mails an den Kunden über neue Umfragen.';
     $Self->{Translation}->{'Defines an overview module to show the small view of a survey list.'} = 'Definiert ein Übersichts-Modul, dass eine Liste aller Umfragen anzeigt.';
     $Self->{Translation}->{'Defines the shown columns in the survey overview. This option has no effect on the position of the column.'} = 'Definiert die angezeigten Spalten in der Umfrage-Übersicht. Die Einstellung hat keinen Effekt auf die angezeigte Reihenfolge der Spalten.';

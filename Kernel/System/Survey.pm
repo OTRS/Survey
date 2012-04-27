@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Survey.pm - all survey funtions
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Survey.pm,v 1.62 2011-03-04 05:12:35 dz Exp $
+# $Id: Survey.pm,v 1.62.2.1 2012-04-27 10:03:15 jp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Ticket;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.62.2.1 $) [1];
 
 =head1 NAME
 
@@ -1960,6 +1960,19 @@ sub RequestSend {
     # convert to lower cases
     $To = lc $To;
 
+    # check recipient blacklist
+    my $RecipientBlacklist = $Self->{ConfigObject}->Get('Survey::NotificationRecipientBlacklist');
+    if (
+        defined $RecipientBlacklist
+        && ref $RecipientBlacklist eq 'ARRAY'
+        && @{$RecipientBlacklist}
+        )
+    {
+        for my $Recipient ( @{$RecipientBlacklist} ) {
+            return if defined $Recipient && length $Recipient && $To eq $Recipient;
+        }
+    }
+
     # check if not survey should be send
     my $SendNoSurveyRegExp = $Self->{ConfigObject}->Get('Survey::SendNoSurveyRegExp');
 
@@ -2794,6 +2807,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.62 $ $Date: 2011-03-04 05:12:35 $
+$Revision: 1.62.2.1 $ $Date: 2012-04-27 10:03:15 $
 
 =cut
