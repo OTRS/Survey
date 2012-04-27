@@ -2,7 +2,7 @@
 # CHANGES - change log of the Survey module for OTRS
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES-Survey,v 1.5.2.1 2012-04-27 10:03:15 jp Exp $
+# $Id: CHANGES-Survey,v 1.5.2.2 2012-04-27 10:12:01 jp Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,7 @@
 # --
 
 2.0.5 - ?
- - 2012-04-27 Added blacklist for survey notification email addresses.
+ - 2012-04-27 Added configurable email address blacklist to which surveys won't be sent.
 
 1.2.92 - 2011-02-18
  - 2011-02-16 Fixed Bug#6826 - Survey shows blank overview screen by database error.
