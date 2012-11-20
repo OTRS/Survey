@@ -2,7 +2,7 @@
 # Kernel/Language/de_Survey.pm - translation file
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: de_Survey.pm,v 1.5.2.1 2012-04-27 10:03:15 jp Exp $
+# $Id: de_Survey.pm,v 1.5.2.2 2012-11-20 12:42:24 jh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -45,6 +45,11 @@ sub Data {
     $Self->{Translation}->{'This doesn\'t have several answers, a textarea will be displayed.'} = 'Diese Frage hat nicht mehrere Antworten, ein Texteingabefeld wird hinzugefügt.';
     $Self->{Translation}->{'Edit Answer'} = 'Antwort bearbeiten';
     $Self->{Translation}->{'go back to edit question'} = 'Zurück zum Bearbeiten der Frage';
+# ---
+# AnswerRequired
+# ---
+    $Self->{Translation}->{'Answer required'} = 'Antwort erforderlich';
+# ---
 
     # Template: AgentSurveyOverviewNavBar
     $Self->{Translation}->{'Context Settings'} = 'Kontext-Einstellungen';
