@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
     "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-<!-- $Id: Survey.xml,v 1.1.2.1 2012-11-20 12:46:05 jh Exp $ -->
+<!-- $Id: Survey.xml,v 1.1.2.2 2012-11-20 15:11:20 jh Exp $ -->
 
 <book lang='en'>
 
@@ -60,7 +60,7 @@
     <para>This Module enables you to create new Surveys,
         add questions to a created Survey, set a Survey live in order to send
         requests, modify existing Surveys to a certain extent,
-        and view statistics of submitted survey answers as well as the answers
+        and view statistics of submitted Survey answers as well as the answers
         themselves.
     </para>
 </chapter>
@@ -160,11 +160,11 @@
         <para>
             Avoids spamming customers with Survey requests.
             The number given here is the amount of days,
-            a customer won't get a second survey request
+            a customer won't get a second Survey request
             after having received a request. In this
             time periode tickets for this customer
             can be closed without triggering new
-            survey requests.
+            Survey requests.
         </para>
     </sect1>
     <sect1>
@@ -179,7 +179,7 @@
         <title>Survey::NotificationRecipientBlacklist</title>
         <para>Group: Survey, Subgroup: Core</para>
         <para>
-            Mailadresses that will never get survey requests.
+            Mailadresses that will never get Survey requests.
         </para>
     </sect1>
     <sect1>
@@ -202,14 +202,14 @@
         <title>Survey::SendNoSurveyRegExp</title>
         <para>Group: Survey, Subgroup: Core</para>
         <para>
-            If this regex matches, no customer survey will be sent.
+            If this regex matches, no customer Survey will be sent.
         </para>
     </sect1>
     <sect1>
         <title>Survey::Frontend::AgentSurvey###ShowColumns</title>
         <para>Group: Survey, Subgroup: Frontend::Agent::SurveyOverview</para>
         <para>
-            Defines the shown columns in the survey overview.
+            Defines the shown columns in the Survey overview.
             This option has no effect on the position of the column.
         </para>
     </sect1>
@@ -236,7 +236,7 @@
         </para>
         <para>
             New Surveys require a title, an introduction text, a sender mailaddress, a mail subject,
-            a mail body and an internal description of the survey.
+            a mail body and an internal description of the Survey.
         </para>
         <para>
             Additionally the new Survey can be created for just some queues.
@@ -246,7 +246,7 @@
     <sect1>
         <title>Add Questions</title>
         <para>
-            As soon as a new Survey is created, the user can add questions to this survey by clicking
+            As soon as a new Survey is created, the user can add questions to this Survey by clicking
             "Edit Questions" in the displayed Survey.
         </para>
         <para>
@@ -312,20 +312,21 @@
             you can see the "Survey Results Graph".
         </para>
         <para>
-            This displays the statistically summarizeable questions (e.g. YeNo, Radio and Checkbox).
+            This displays the statistically summarizeable questions (e.g. YesNo, Radio and Checkbox).
         </para>
         <para>
             As soon as the Survey has the state "Master" the Survey is set live.
         </para>
         <para>
-            Radio (List) and YesNo Questions where answers were configured as "required" will have
+            Questions where answers were configured as "required" will have
             one vote for each customer submitted Survey.
         </para>
         <para>
-            Radio (List) and YesNo Questions where answers were not configured as "required"
+            Questions where answers were not configured as "required"
             are optional for the customer. This means that for example 200 customers submitted
-            the survey but in the statistic in total only 10 or 20 answers may occur, if
-            customers did not select any of the Radio (List) or YesNo answer.
+            the Survey but in the statistic in total only 10 or 20 answers may occur, if
+            customers did not select any of the Radio (List), YesNo or checkbox answers
+            or haven't put anything in a textarea answer.
         </para>
         <para>
             Statistics for required Checkbox (List) questions will have at least one
@@ -335,22 +336,18 @@
             Checkbox (List) question.
         </para>
         <para>
-            Statistics for not required Checkbox (List) questions may have
-            less votes than the total amount of submitted Surveys. (answer is optional).
-        </para>
-        <para>
-            Statistics for not required Checkbox (List) questions may have
-            less votes than the total amount of submitted Surveys. (answer is optional).
+            Statistics for not required questions may have
+            less votes than the total amount of submitted Surveys (answer is optional).
         </para>
     </sect1>
     <sect1>
         <title>Stats Details</title>
         <para>
             By selecting "SURVEY" from the menu, choosing "Overview", clicking on a
-            a Survey that customers already submitted and choosing "Stats Details"
+            Survey that customers already submitted and choosing "Stats Details"
             you can see a list containing the time the Survey invitation was sent to the customer,
-            the time the customer submitted his filled survey, the Ticket (clickable)
-            ans a magnifying glass that shows the selected votes for this customer.
+            the time the customer submitted his filled Survey, the Ticket (clickable)
+            and a magnifying glass that shows the selected votes for this customer.
         </para>
         <para>
             In there you can find the answers the customer chose or typed in question by question.
