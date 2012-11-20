@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_package version="1.0">
-    <CVS>$Id: Survey.sopm,v 1.46.2.2 2012-11-20 12:36:53 jh Exp $</CVS>
+    <CVS>$Id: Survey.sopm,v 1.46.2.3 2012-11-20 13:54:29 jh Exp $</CVS>
     <Name>Survey</Name>
     <Version>0.0.0</Version>
     <Framework>3.0.x</Framework>
@@ -50,9 +50,7 @@
         <File Permission="644" Location="var/httpd/htdocs/skins/Agent/default/img/icons/survey_arrow_down.png"/>
         <File Permission="644" Location="var/httpd/htdocs/skins/Agent/default/img/icons/survey_arrow_down_disabled.png"/>
         <File Permission="644" Location="var/httpd/htdocs/skins/Agent/default/img/icons/survey_see_details.png"/>
-<!-- # AnswerRequired -->
         <File Permission="644" Location="var/packagesetup/Survey.pm"/>
-<!-- # AnswerRequired -->
     </Filelist>
     <DatabaseInstall Type="post">
         <TableCreate Name="survey">
@@ -103,9 +101,7 @@
             <Column Name="question" Required="true" Size="250" Type="VARCHAR"/>
             <Column Name="question_type" Required="true" Size="50" Type="VARCHAR"/>
             <Column Name="position" Required="true" Type="SMALLINT"/>
-<!-- # AnswerRequired -->
             <Column Name="answer_required" Required="true" Type="SMALLINT"/>
-<!-- # AnswerRequired -->
             <Column Name="create_time" Required="false" Type="DATE"/>
             <Column Name="create_by" Required="false" Type="INTEGER"/>
             <Column Name="change_time" Required="false" Type="DATE"/>
@@ -160,11 +156,9 @@
             <Column Name="survey_id" Required="true" Type="BIGINT"/>
             <Column Name="queue_id" Required="true" Type="INTEGER"/>
         </TableCreate>
-<!-- # AnswerRequired -->
         <TableAlter Name="survey_question" Version="2.0.5">
             <ColumnAdd Name="answer_required" Required="false" Type="SMALLINT"/>
         </TableAlter>
-<!-- # AnswerRequired -->
     </DatabaseUpgrade>
     <DatabaseUninstall Type="pre">
         <TableDrop Name="survey"/>
@@ -330,7 +324,6 @@
         <br>
 
     ]]></IntroUninstall>
-<!-- # AnswerRequired -->
     <CodeUpgrade Type="post" Version="2.0.5"><![CDATA[
 
         # define function name
@@ -366,5 +359,4 @@
         }
 
     ]]></CodeUpgrade>
-<!-- # AnswerRequired -->
 </otrs_package>
