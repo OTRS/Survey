@@ -2,7 +2,7 @@
 # Kernel/System/Survey.pm - all survey funtions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Survey.pm,v 1.62.2.4 2012-11-20 14:44:10 jh Exp $
+# $Id: Survey.pm,v 1.62.2.5 2012-11-21 15:02:51 jh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Ticket;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.62.2.4 $) [1];
+$VERSION = qw($Revision: 1.62.2.5 $) [1];
 
 =head1 NAME
 
@@ -622,7 +622,7 @@ to add a new question to a survey
         UserID => 1,
         SurveyID => 10,
         Question => 'The Question',
-        AnswerRequired => 1, # or
+        AnswerRequired => 1, # or 0
         Type => 'Radio',
     );
 
@@ -2840,6 +2840,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.62.2.4 $ $Date: 2012-11-20 14:44:10 $
+$Revision: 1.62.2.5 $ $Date: 2012-11-21 15:02:51 $
 
 =cut
