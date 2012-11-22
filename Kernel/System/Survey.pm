@@ -2,7 +2,7 @@
 # Kernel/System/Survey.pm - all survey funtions
 # Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 # --
-# $Id: Survey.pm,v 1.62.2.5 2012-11-21 15:02:51 jh Exp $
+# $Id: Survey.pm,v 1.62.2.6 2012-11-22 14:20:26 jh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Ticket;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.62.2.5 $) [1];
+$VERSION = qw($Revision: 1.62.2.6 $) [1];
 
 =head1 NAME
 
@@ -596,17 +596,11 @@ sub QuestionList {
     my @List;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my %Data;
-        $Data{QuestionID} = $Row[0];
-        $Data{SurveyID}   = $Row[1];
-        $Data{Question}   = $Row[2];
-        $Data{Type}       = $Row[3];
-
-        # ---
-        # AnswerReqruired
-        # ---
-        $Data{AnswerRequired} = $Row[4];
-
-        # ---
+        $Data{QuestionID}     = $Row[0];
+        $Data{SurveyID}       = $Row[1];
+        $Data{Question}       = $Row[2];
+        $Data{Type}           = $Row[3];
+        $Data{AnswerRequired} = $Row[4] || 0;
 
         push @List, \%Data;
     }
@@ -2840,6 +2834,6 @@ did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =head1 VERSION
 
-$Revision: 1.62.2.5 $ $Date: 2012-11-21 15:02:51 $
+$Revision: 1.62.2.6 $ $Date: 2012-11-22 14:20:26 $
 
 =cut
