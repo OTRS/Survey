@@ -17,6 +17,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Email;
 use Kernel::System::HTMLUtils;
 use Kernel::System::Ticket;
+use Kernel::System::Queue;
 use Mail::Address;
 
 use vars qw(@ISA);
@@ -114,6 +115,7 @@ sub new {
     $Self->{CustomerUserObject} = $Param{CustomerUserObject}
         || Kernel::System::CustomerUser->new( %{$Self} );
     $Self->{TicketObject} = $Param{TicketObject} || Kernel::System::Ticket->new( %{$Self} );
+    $Self->{QueueObject}  = $Param{QueueObject}  || Kernel::System::Queue->new( %{$Self} );
 
     return $Self;
 }
@@ -172,7 +174,7 @@ sub SurveyGet {
     $Self->{DBObject}->Prepare(
         SQL => "SELECT id, surveynumber, title, introduction, description,"
             . " notification_sender, notification_subject, notification_body, "
-            . " status, create_time, create_by, change_time, change_by "
+            . " status, create_time, create_by, change_time, change_by, use_queue_address "
             . " FROM survey WHERE id = $Param{SurveyID}",
         Limit => 1,
     );
@@ -193,6 +195,7 @@ sub SurveyGet {
         $Data{CreateBy}            = $Row[10];
         $Data{ChangeTime}          = $Row[11];
         $Data{ChangeBy}            = $Row[12];
+        $Data{UseQueueAddress}     = $Row[13];
     }
 
     if ( !%Data ) {
@@ -204,7 +207,10 @@ sub SurveyGet {
     }
 
     # set default values
-    $Data{NotificationSender}  ||= $Self->{ConfigObject}->Get('Survey::NotificationSender');
+    if ( !$Data{UseQueueAddress} ) {
+        $Data{NotificationSender} ||= $Self->{ConfigObject}->Get('Survey::NotificationSender');
+    }
+
     $Data{NotificationSubject} ||= $Self->{ConfigObject}->Get('Survey::NotificationSubject');
     $Data{NotificationBody}    ||= $Self->{ConfigObject}->Get('Survey::NotificationBody');
 
@@ -396,7 +402,7 @@ sub SurveySave {
     for my $Argument (
         qw(
         UserID SurveyID Title Introduction Description
-        NotificationSender NotificationSubject NotificationBody
+        NotificationSubject NotificationBody
         )
         )
     {
@@ -407,6 +413,13 @@ sub SurveySave {
             );
             return;
         }
+    }
+
+    if ( !$Param{UseQueueAddress} && !$Param{NotificationSender} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need either UseQueueAddress or NotificationSender",
+        );
     }
 
     # check queues
@@ -421,32 +434,20 @@ sub SurveySave {
     # set default value
     $Param{Queues} ||= [];
 
-    # quote
-    for my $Argument (
-        qw(
-        Title Introduction Description
-        NotificationSender NotificationSubject NotificationBody
-        )
-        )
-    {
-        $Param{$Argument} = $Self->{DBObject}->Quote( $Param{$Argument} );
-    }
-    for my $Argument (qw(UserID SurveyID)) {
-        $Param{$Argument} = $Self->{DBObject}->Quote( $Param{$Argument}, 'Integer' );
-    }
+    my @BindNames = qw(
+        Title Introduction Description NotificationSender NotificationSubject
+        NotificationBody UseQueueAddress UserID SurveyID 
+    );
+    my @Binds = map{ \$Param{$_} }@BindNames;
 
     # update the survey
     return if !$Self->{DBObject}->Do(
         SQL => "UPDATE survey SET "
-            . "title = '$Param{Title}', "
-            . "introduction = '$Param{Introduction}', "
-            . "description = '$Param{Description}', "
-            . "notification_sender = '$Param{NotificationSender}', "
-            . "notification_subject = '$Param{NotificationSubject}', "
-            . "notification_body = '$Param{NotificationBody}', "
-            . "change_time = current_timestamp, "
-            . "change_by = $Param{UserID} "
-            . "WHERE id = $Param{SurveyID}",
+            . "title = ?, introduction = ?, description = ?, notification_sender = ?, "
+            . "notification_subject = ?, notification_body = ?, use_queue_address = ?, "
+            . "change_time = current_timestamp, change_by = ?"
+            . "WHERE id = ?",
+        Bind => \@Binds,
     );
 
     # insert new survey-queue relations
@@ -480,7 +481,7 @@ sub SurveyNew {
     for my $Argument (
         qw(
         UserID Title Introduction Description
-        NotificationSender NotificationSubject NotificationBody
+        NotificationSubject NotificationBody
         )
         )
     {
@@ -493,44 +494,36 @@ sub SurveyNew {
         }
     }
 
-    # quote
-    for my $Argument (
-        qw(
-        Title Introduction Description
-        NotificationSender NotificationSubject NotificationBody
-        )
-        )
-    {
-        $Param{$Argument} = $Self->{DBObject}->Quote( $Param{$Argument} );
+    if ( !$Param{UseQueueAddress} && !$Param{NotificationSender} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need either UseQueueAddress or NotificationSender",
+        );
     }
-    $Param{UserID} = $Self->{DBObject}->Quote( $Param{UserID}, 'Integer' );
+
+    my @BindNames = qw(
+        Title Introduction Description NotificationSender NotificationSubject
+        NotificationBody UserID UserID UseQueueAddress 
+    );
+    my @Binds = map{ \$Param{$_} }@BindNames;
 
     # insert a new survey
     $Self->{DBObject}->Do(
         SQL => "INSERT INTO survey (title, introduction, description,"
             . " notification_sender, notification_subject, notification_body,"
-            . " status, create_time, create_by, change_time, change_by"
-            . ") VALUES ("
-            . "'$Param{Title}', "
-            . "'$Param{Introduction}', "
-            . "'$Param{Description}', "
-            . "'$Param{NotificationSender}', "
-            . "'$Param{NotificationSubject}', "
-            . "'$Param{NotificationBody}', "
-            . "'New', "
-            . "current_timestamp, "
-            . "$Param{UserID}, "
-            . "current_timestamp, "
-            . "$Param{UserID})",
+            . " status, create_time, create_by, change_time, change_by, use_queue_address"
+            . ") VALUES ( ?, ?, ?, ?, ?, ?, 'New', current_timestamp, ?, current_timestamp, ?, ? )",
+        Bind => \@Binds,
     );
 
     # get the id of the survey
     $Self->{DBObject}->Prepare(
         SQL => "SELECT id FROM survey WHERE "
-            . "title = '$Param{Title}' AND "
-            . "introduction = '$Param{Introduction}' AND "
-            . "description = '$Param{Description}' "
+            . "title = ? AND "
+            . "introduction = ? AND "
+            . "description = ? "
             . "ORDER BY id DESC",
+        Bind  => [ \$Param{Title}, \$Param{Introduction}, \$Param{Description} ],
         Limit => 1,
     );
 
@@ -545,7 +538,8 @@ sub SurveyNew {
         SQL => "UPDATE survey SET "
             . "surveynumber = '"
             . ( $SurveyID + 10000 ) . "' "
-            . "WHERE id = $SurveyID"
+            . "WHERE id = ?",
+        Bind => [ \$SurveyID ],
     );
 
     return $SurveyID if !$Param{Queues};
@@ -2162,6 +2156,14 @@ sub RequestSend {
         Charset => $Charset,
     );
 
+    if ( $Survey{UseQueueAddress} ) {
+        my %Email = $Self->{QueueObject}->GetSystemAddress(
+            QueueID => $Ticket{QueueID},
+        );
+
+        $Survey{NotificationSender} = sprintf "%s <%s>", $Email{RealName}, $Email{Email};
+    }
+
     # send survey
     return $Self->{SendmailObject}->Send(
         From     => $Survey{NotificationSender},
@@ -2922,5 +2924,9 @@ This software is part of the OTRS project (http://otrs.org/).
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
+
+=head1 VERSION
+
+$Revision: 1.74 $ $Date: 2013/06/24 15:08:56 $
 
 =cut
