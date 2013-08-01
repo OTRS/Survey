@@ -42,6 +42,16 @@ $Include{"RichTextEditor"}
                     <label class="Mandatory" for="NotificationSender"><span class="Marker">*</span> $Text{"Sender"}:</label>
                     <div class="Field">
                         <input id="NotificationSender" name="NotificationSender" type="text" class="W75pc Validate_Required $QData{"NotificationSenderServerError"}" value="$QData{"NotificationSender"}" />
+                        <input id="UseQueueAddress" name="UseQueueAddress" type="checkbox" $Data{"UseQueueAddress"} /> $Text{"Use Queue address"}
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    if ( $('#UseQueueAddress').is(':checked') ) { $('#NotificationSender').removeClass('Validate_Required'); }
+    $('#UseQueueAddress').bind('click', function() {
+        if ( $(this).is(':checked') ) { $('#NotificationSender').removeClass('Validate_Required'); }
+        else                          { $('#NotificationSender').addClass('Validate_Required'); }
+    });
+//]]></script>
+<!-- dtl:js_on_document_complete -->
                     </div>
                     <div class="Clear"></div>
 
@@ -138,6 +148,16 @@ $Include{"RichTextEditor"}
                 <label class="Mandatory" for="NotificationSender"><span class="Marker">*</span> $Text{"Sender"}:</label>
                 <div class="Field">
                     <input id="NotificationSender" name="NotificationSender" type="text" class="W75pc Validate_Required $QData{"NotificationSenderServerError"}" value="$QData{"NotificationSender"}" />
+                    <input id="UseQueueAddress" name="UseQueueAddress" type="checkbox" value="1" $Data{"UseQueueAddress"} /> $Text{"Use Queue address"}
+<!-- dtl:js_on_document_complete -->
+<script type="text/javascript">//<![CDATA[
+    if ( $('#UseQueueAddress').is(':checked') ) { $('#NotificationSender').removeClass('Validate_Required'); }
+    $('#UseQueueAddress').bind('click', function() {
+        if ( $(this).is(':checked') ) { $('#NotificationSender').removeClass('Validate_Required'); }
+        else                          { $('#NotificationSender').addClass('Validate_Required'); }
+    });
+//]]></script>
+<!-- dtl:js_on_document_complete -->
                 </div>
                 <div class="Clear"></div>
 
