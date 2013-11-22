@@ -104,12 +104,10 @@ sub Run {
             }
         }
 
-        @{ $FormElements{Queues} } = $Self->{ParamObject}->GetArray( Param => "Queues" );
-
-        @{ $FormElements{TicketTypeIDs} }
-            = $Self->{ParamObject}->GetArray( Param => "TicketTypeIDs" );
-
-        @{ $FormElements{ServiceIDs} } = $Self->{ParamObject}->GetArray( Param => "ServiceIDs" );
+        # get array params
+        for my $Item (qw(Queues TicketTypeIDs ServiceIDs)) {
+            @{ $FormElements{$Item} } = $Self->{ParamObject}->GetArray( Param => $Item );
+        }
 
         if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
             $FormElements{Introduction}
@@ -178,12 +176,10 @@ sub Run {
             }
         }
 
-        @{ $FormElements{Queues} } = $Self->{ParamObject}->GetArray( Param => "Queues" );
-
-        @{ $FormElements{TicketTypeIDs} }
-            = $Self->{ParamObject}->GetArray( Param => "TicketTypeIDs" );
-
-        @{ $FormElements{ServiceIDs} } = $Self->{ParamObject}->GetArray( Param => "ServiceIDs" );
+        # get array params
+        for my $Item (qw(Queues TicketTypeIDs ServiceIDs)) {
+            @{ $FormElements{$Item} } = $Self->{ParamObject}->GetArray( Param => $Item );
+        }
 
         if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
             $FormElements{Introduction}     = "\$html/text\$ $FormElements{Introduction}";
