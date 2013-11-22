@@ -125,6 +125,8 @@ sub Data {
         'Definiert die  Standardhöhe eines WYSIWYG-Bereichs für die Umfrage-Detailansicht.';
     $Self->{Translation}->{'Defines the shown columns in the survey overview. This option has no effect on the position of the columns.'} =
         'Definiert die angezeigten Spalten der Umfrage Übersicht. Diese Option hat keine Auswirkung auf die Position der Spalten.';
+    $Self->{Translation}->{'Enable or disable the send condition check for the service.'} = 'Aktivieren oder deaktivieren der Versandbedingungs-Prüfung für Services.';
+    $Self->{Translation}->{'Enable or disable the send condition check for the ticket type.'} = 'Aktivieren oder deaktivieren der Versandbedingungs-Prüfung für Ticket Typen.';
     $Self->{Translation}->{'Enable or disable the ShowVoteData screen in the public interface to show data of a specific survey result when the customer tries to answer a survey the second time.'} =
         'Aktivieren oder deaktivieren die ShowVoteData screens im Public Interface, um Abstimmungs-Daten anzuzeigen, wen ein Kunde versucht, ein zweites mal abzustimmen.';
     $Self->{Translation}->{'Frontend module registration for survey zoom in the agent interface.'} =

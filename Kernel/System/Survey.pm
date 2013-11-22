@@ -13,10 +13,12 @@ use strict;
 use warnings;
 
 use Digest::MD5;
+use Kernel::System::YAML;
 use Kernel::System::CustomerUser;
 use Kernel::System::Email;
 use Kernel::System::HTMLUtils;
 use Kernel::System::Ticket;
+use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
 use vars qw(@ISA);
@@ -106,6 +108,9 @@ sub new {
         $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
 
+    # create additional objects
+    $Self->{YAMLObject} = Kernel::System::YAML->new( %{$Self} );
+
     $Self->{HTMLUtilsObject} = $Param{HTMLUtilsObject}
         || Kernel::System::HTMLUtils->new( %{$Self} );
 
@@ -172,7 +177,7 @@ sub SurveyGet {
     $Self->{DBObject}->Prepare(
         SQL => "SELECT id, surveynumber, title, introduction, description,"
             . " notification_sender, notification_subject, notification_body, "
-            . " status, create_time, create_by, change_time, change_by "
+            . " status, send_conditions, create_time, create_by, change_time, change_by "
             . " FROM survey WHERE id = $Param{SurveyID}",
         Limit => 1,
     );
@@ -180,6 +185,18 @@ sub SurveyGet {
     # fetch the result
     my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
+        # get SendCondition as hash
+        my $SendConditions = $Self->{YAMLObject}->Load( Data => $Row[9] ) || {};
+
+        # set data fields for send conditions
+        if ( IsArrayRefWithData( $SendConditions->{TicketTypeIDs} ) ) {
+            $Data{TicketTypeIDs} = $SendConditions->{TicketTypeIDs};
+        }
+        if ( IsArrayRefWithData( $SendConditions->{ServiceIDs} ) ) {
+            $Data{ServiceIDs} = $SendConditions->{ServiceIDs};
+        }
+
         $Data{SurveyID}            = $Row[0];
         $Data{SurveyNumber}        = $Row[1];
         $Data{Title}               = $Row[2];
@@ -189,10 +206,10 @@ sub SurveyGet {
         $Data{NotificationSubject} = $Row[6];
         $Data{NotificationBody}    = $Row[7];
         $Data{Status}              = $Row[8];
-        $Data{CreateTime}          = $Row[9];
-        $Data{CreateBy}            = $Row[10];
-        $Data{ChangeTime}          = $Row[11];
-        $Data{ChangeBy}            = $Row[12];
+        $Data{CreateTime}          = $Row[10];
+        $Data{CreateBy}            = $Row[11];
+        $Data{ChangeTime}          = $Row[12];
+        $Data{ChangeBy}            = $Row[13];
     }
 
     if ( !%Data ) {
@@ -435,18 +452,22 @@ sub SurveySave {
         $Param{$Argument} = $Self->{DBObject}->Quote( $Param{$Argument}, 'Integer' );
     }
 
+    # build send condition string
+    my $SendConditionStrg = $Self->_BuildSendConditionStrg(%Param);
+
     # update the survey
     return if !$Self->{DBObject}->Do(
-        SQL => "UPDATE survey SET "
-            . "title = '$Param{Title}', "
-            . "introduction = '$Param{Introduction}', "
-            . "description = '$Param{Description}', "
-            . "notification_sender = '$Param{NotificationSender}', "
-            . "notification_subject = '$Param{NotificationSubject}', "
-            . "notification_body = '$Param{NotificationBody}', "
-            . "change_time = current_timestamp, "
-            . "change_by = $Param{UserID} "
-            . "WHERE id = $Param{SurveyID}",
+        SQL => '
+            UPDATE survey
+            SET title = ?, introduction = ?, description = ?, notification_sender = ?,
+                notification_subject = ?, notification_body = ?, send_conditions = ?, change_time = current_timestamp,
+                change_by = ?
+            WHERE id = ?',
+        Bind => [
+            \$Param{Title},              \$Param{Introduction},        \$Param{Description},
+            \$Param{NotificationSender}, \$Param{NotificationSubject}, \$Param{NotificationBody},
+            \$SendConditionStrg, \$Param{UserID}, \$Param{SurveyID},
+        ],
     );
 
     # insert new survey-queue relations
@@ -505,23 +526,23 @@ sub SurveyNew {
     }
     $Param{UserID} = $Self->{DBObject}->Quote( $Param{UserID}, 'Integer' );
 
+    # build send condition string
+    my $SendConditionStrg = $Self->_BuildSendConditionStrg(%Param);
+
     # insert a new survey
+    my $Status = 'New';
     $Self->{DBObject}->Do(
-        SQL => "INSERT INTO survey (title, introduction, description,"
-            . " notification_sender, notification_subject, notification_body,"
-            . " status, create_time, create_by, change_time, change_by"
-            . ") VALUES ("
-            . "'$Param{Title}', "
-            . "'$Param{Introduction}', "
-            . "'$Param{Description}', "
-            . "'$Param{NotificationSender}', "
-            . "'$Param{NotificationSubject}', "
-            . "'$Param{NotificationBody}', "
-            . "'New', "
-            . "current_timestamp, "
-            . "$Param{UserID}, "
-            . "current_timestamp, "
-            . "$Param{UserID})",
+        SQL => '
+            INSERT INTO survey (title, introduction, description, notification_sender,
+                notification_subject, notification_body, status, send_conditions, create_time, create_by,
+                change_time, change_by )
+            VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+        Bind => [
+            \$Param{Title},              \$Param{Introduction},        \$Param{Description},
+            \$Param{NotificationSender}, \$Param{NotificationSubject}, \$Param{NotificationBody},
+            \$Status, \$SendConditionStrg, \$Param{UserID},
+            \$Param{UserID},
+        ],
     );
 
     # get the id of the survey
@@ -1902,6 +1923,48 @@ sub RequestSend {
         return if !$Found;
     }
 
+    # check if the for send condition ticket type check is enabled
+    if ( $Self->{ConfigObject}->Get('Survey::CheckSendConditionTicketType') ) {
+
+        # check if ticket is in a send ticket type id
+        if ( IsArrayRefWithData( $Survey{TicketTypeIDs} ) ) {
+
+            return if !$Ticket{TypeID};
+
+            my $Found;
+
+            TICKETTYPE:
+            for my $TicketTypeID ( @{ $Survey{TicketTypeIDs} } ) {
+                next TICKETTYPE if $Ticket{TypeID} != $TicketTypeID;
+                $Found = 1;
+                last TICKETTYPE;
+            }
+
+            return if !$Found;
+        }
+    }
+
+    # check if the send condition service check is enabled
+    if ( $Self->{ConfigObject}->Get('Survey::CheckSendConditionService') ) {
+
+        # check if ticket is in a send service
+        if ( IsArrayRefWithData( $Survey{ServiceIDs} ) ) {
+
+            return if !$Ticket{ServiceID};
+
+            my $Found;
+
+            SERVICE:
+            for my $ServiceID ( @{ $Survey{ServiceIDs} } ) {
+                next SERVICE if $Ticket{ServiceID} != $ServiceID;
+                $Found = 1;
+                last SERVICE;
+            }
+
+            return if !$Found;
+        }
+    }
+
     for my $Data ( sort keys %Ticket ) {
         if ( defined $Ticket{$Data} ) {
             $Subject =~ s/<OTRS_TICKET_$Data>/$Ticket{$Data}/gi;
@@ -2909,6 +2972,41 @@ sub GetRichTextDocumentComplete {
     );
 
     return $HTMLDocumentComplete;
+}
+
+=item _BuildSendConditionStrg()
+
+build send condition string with the single items
+
+    my %SendConditions = $SurveyObject->_BuildSendConditionStrg(
+        'TicketTypeIDs' => [1, 2, 3], # (optional)
+        'ServiceIDs'    => [1, 2, 3], # (optional)
+    );
+
+=cut
+
+sub _BuildSendConditionStrg {
+    my ( $Self, %Param ) = @_;
+
+    # build send condition hash
+    my %SendConditions;
+
+    if ( IsArrayRefWithData( $Param{TicketTypeIDs} ) ) {
+        $SendConditions{TicketTypeIDs} = $Param{TicketTypeIDs};
+    }
+
+    if ( IsArrayRefWithData( $Param{ServiceIDs} ) ) {
+        $SendConditions{ServiceIDs} = $Param{ServiceIDs};
+    }
+
+    # dump send conditions as string
+    my $SendConditionStrg = $Self->{YAMLObject}->Dump( Data => \%SendConditions );
+
+    # Make sure the resulting string has the UTF-8 flag. YAML only sets it if
+    #   part of the data already had it.
+    utf8::upgrade($SendConditionStrg);
+
+    return $SendConditionStrg;
 }
 
 1;

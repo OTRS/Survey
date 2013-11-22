@@ -65,6 +65,22 @@ $Include{"RichTextEditor"}
                     </div>
                     <div class="Clear"></div>
 
+<!-- dtl:block:TicketTypes -->
+                <label for="TicketTypeIDs">$Text{"Ticket Types"}:</label>
+                <div class="Field">
+                    $Data{"TicketTypeStrg"}
+                </div>
+                <div class="Clear"></div>
+<!-- dtl:block:TicketTypes -->
+
+<!-- dtl:block:TicketServices -->
+                <label for="ServiceIDs">$Text{"Services"}:</label>
+                <div class="Field">
+                    $Data{"ServiceStrg"}
+                </div>
+                <div class="Clear"></div>
+<!-- dtl:block:TicketServices -->
+
 <!-- dtl:block:SurveyAddInternalDescription -->
                     <label class="Mandatory" for="Description"><span class="Marker">*</span> $Text{"Internal Description"}:</label>
                     <div class="RichTextField">
@@ -160,6 +176,22 @@ $Include{"RichTextEditor"}
                     $Data{"QueueString"}
                 </div>
                 <div class="Clear"></div>
+
+<!-- dtl:block:TicketTypes -->
+                <label for="TicketTypeIDs">$Text{"Ticket Types"}:</label>
+                <div class="Field">
+                    $Data{"TicketTypeStrg"}
+                </div>
+                <div class="Clear"></div>
+<!-- dtl:block:TicketTypes -->
+
+<!-- dtl:block:TicketServices -->
+                <label for="ServiceIDs">$Text{"Services"}:</label>
+                <div class="Field">
+                    $Data{"ServiceStrg"}
+                </div>
+                <div class="Clear"></div>
+<!-- dtl:block:TicketServices -->
 
 <!-- dtl:block:SurveyEditInternalDescription -->
                 <label class="Mandatory" for="Description"><span class="Marker">*</span> $Text{"Internal Description"}:</label>

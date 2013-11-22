@@ -167,6 +167,16 @@
         </para>
     </sect1>
     <sect1>
+        <title>Survey::CheckSendConditionTicketType.</title>
+        <para>Group: Survey, Subgroup: Core::Survey.</para>
+        <para>Enable or disable the send condition check for the ticket type.</para>
+    </sect1>
+    <sect1>
+        <title>Survey::CheckSendConditionService.</title>
+        <para>Group: Survey, Subgroup: Core::Survey.</para>
+        <para>Enable or disable the send condition check for the service.</para>
+    </sect1>
+    <sect1>
         <title>Survey::NotificationSender</title>
         <para>Group: Survey, Subgroup: Core</para>
         <para>
@@ -238,8 +248,8 @@
             a mail body and an internal description of the Survey.
         </para>
         <para>
-            Additionally the new Survey can be created for just some queues.
-            If none are selected, it will be valid for every Queue.
+            If none are selected, it will be valid for every queue, ticket type annd service.
+            As default the send condition check for ticket types or services are disabled. So the fields aren't displayed in the mask (new and edit mask for a survey).
         </para>
     </sect1>
     <sect1>
@@ -415,7 +425,7 @@
         survey_vote.
     </para>
     <para>
-        The survey table holds the general information of a survey.
+        The survey table holds the general information of a survey and the send condition information for a survey..
     </para>
     <para>
         The survey_answer holds the answers for a survey questions.
