@@ -441,20 +441,6 @@ sub SurveySave {
     # set default value
     $Param{Queues} ||= [];
 
-    # quote
-    for my $Argument (
-        qw(
-        Title Introduction Description
-        NotificationSender NotificationSubject NotificationBody
-        )
-        )
-    {
-        $Param{$Argument} = $Self->{DBObject}->Quote( $Param{$Argument} );
-    }
-    for my $Argument (qw(UserID SurveyID)) {
-        $Param{$Argument} = $Self->{DBObject}->Quote( $Param{$Argument}, 'Integer' );
-    }
-
     # build send condition string
     my $SendConditionStrg = $Self->_BuildSendConditionStrg(%Param);
 
@@ -518,18 +504,6 @@ sub SurveyNew {
             return;
         }
     }
-
-    # quote
-    for my $Argument (
-        qw(
-        Title Introduction Description
-        NotificationSender NotificationSubject NotificationBody
-        )
-        )
-    {
-        $Param{$Argument} = $Self->{DBObject}->Quote( $Param{$Argument} );
-    }
-    $Param{UserID} = $Self->{DBObject}->Quote( $Param{UserID}, 'Integer' );
 
     # build send condition string
     my $SendConditionStrg = $Self->_BuildSendConditionStrg(%Param);

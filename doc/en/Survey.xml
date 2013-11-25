@@ -248,6 +248,7 @@
             a mail body and an internal description of the Survey.
         </para>
         <para>
+            Additionally the new Survey can be created for just some queues, ticket types or services.
             If none are selected, it will be valid for every queue, ticket type annd service.
             As default the send condition check for ticket types or services are disabled. So the fields aren't displayed in the mask (new and edit mask for a survey).
         </para>
