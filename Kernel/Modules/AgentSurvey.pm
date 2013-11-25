@@ -593,7 +593,7 @@ sub _SurveyAddMask {
             );
 
             $Self->{LayoutObject}->Block(
-                Name => 'TicketTypes',
+                Name => $Block . 'TicketTypes',
                 Data => {
                     TicketTypeStrg => $TicketTypeStrg,
                 },
@@ -623,7 +623,7 @@ sub _SurveyAddMask {
             );
 
             $Self->{LayoutObject}->Block(
-                Name => 'TicketServices',
+                Name => $Block . 'TicketServices',
                 Data => {
                     ServiceStrg => $ServiceStrg,
                 },

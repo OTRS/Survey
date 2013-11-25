@@ -65,21 +65,21 @@ $Include{"RichTextEditor"}
                     </div>
                     <div class="Clear"></div>
 
-<!-- dtl:block:TicketTypes -->
-                <label for="TicketTypeIDs">$Text{"Ticket Types"}:</label>
-                <div class="Field">
-                    $Data{"TicketTypeStrg"}
-                </div>
-                <div class="Clear"></div>
-<!-- dtl:block:TicketTypes -->
+<!-- dtl:block:SurveyAddTicketTypes -->
+                    <label for="TicketTypeIDs">$Text{"Ticket Types"}:</label>
+                    <div class="Field">
+                        $Data{"TicketTypeStrg"}
+                    </div>
+                    <div class="Clear"></div>
+<!-- dtl:block:SurveyAddTicketTypes -->
 
-<!-- dtl:block:TicketServices -->
-                <label for="ServiceIDs">$Text{"Services"}:</label>
-                <div class="Field">
-                    $Data{"ServiceStrg"}
-                </div>
-                <div class="Clear"></div>
-<!-- dtl:block:TicketServices -->
+<!-- dtl:block:SurveyAddTicketServices -->
+                    <label for="ServiceIDs">$Text{"Services"}:</label>
+                    <div class="Field">
+                        $Data{"ServiceStrg"}
+                    </div>
+                    <div class="Clear"></div>
+<!-- dtl:block:SurveyAddTicketServices -->
 
 <!-- dtl:block:SurveyAddInternalDescription -->
                     <label class="Mandatory" for="Description"><span class="Marker">*</span> $Text{"Internal Description"}:</label>
@@ -177,21 +177,21 @@ $Include{"RichTextEditor"}
                 </div>
                 <div class="Clear"></div>
 
-<!-- dtl:block:TicketTypes -->
+<!-- dtl:block:SurveyEditTicketTypes -->
                 <label for="TicketTypeIDs">$Text{"Ticket Types"}:</label>
                 <div class="Field">
                     $Data{"TicketTypeStrg"}
                 </div>
                 <div class="Clear"></div>
-<!-- dtl:block:TicketTypes -->
+<!-- dtl:block:SurveyEditTicketTypes -->
 
-<!-- dtl:block:TicketServices -->
+<!-- dtl:block:SurveyEditTicketServices -->
                 <label for="ServiceIDs">$Text{"Services"}:</label>
                 <div class="Field">
                     $Data{"ServiceStrg"}
                 </div>
                 <div class="Clear"></div>
-<!-- dtl:block:TicketServices -->
+<!-- dtl:block:SurveyEditTicketServices -->
 
 <!-- dtl:block:SurveyEditInternalDescription -->
                 <label class="Mandatory" for="Description"><span class="Marker">*</span> $Text{"Internal Description"}:</label>

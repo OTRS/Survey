@@ -193,7 +193,7 @@ sub SurveyGet {
         ITEM:
         for my $Item (qw(TicketTypeIDs ServiceIDs)) {
 
-            next ITEM if ! IsArrayRefWithData( $SendConditions->{$Item} );
+            next ITEM if !IsArrayRefWithData( $SendConditions->{$Item} );
 
             $Data{$Item} = $SendConditions->{$Item};
         }
