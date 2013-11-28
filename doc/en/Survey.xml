@@ -127,7 +127,7 @@
         </para>
         <para>
         <screen>
-            shell> bin/otrs.PackageManager.pl  -a install -p /path/to/$Name-$Version.opm
+shell> bin/otrs.PackageManager.pl  -a install -p /path/to/$Name-$Version.opm
         </screen>
         </para>
     </sect1>
@@ -559,10 +559,10 @@
     <sect1>
         <title>OTRS AG</title>
         <para>
-            Accounting: xxxx xxxxx &lt;sales@otrs.com&gt;, Phone +49 (0)6172 681988 0
-        </para>
-        <para>
-            Technical: xxxxxxxxx xxxxxxxxx &lt;dev-support@otrs.com&gt;, Phone +49 (0)6172 681988 0
+            Technical: Manuel Hecht
+            <ulink url="mailto:dev-support@otrs.com?subject=$Name">
+                &lt;dev-support@otrs.com&gt;
+            </ulink>, Phone +49 (0)6172 681988 0
         </para>
     </sect1>
 </chapter>
