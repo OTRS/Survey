@@ -100,6 +100,38 @@ sub RequestSend {
         return;
     }
 
+    my @SurveyIDs;
+    if ( !$Param{PublicSurveyKey} ) {
+
+        # find master survey
+        $Self->{DBObject}->Prepare(
+            SQL   => "SELECT id FROM survey WHERE status = 'Master'",
+            Limit => 1,
+        );
+
+        # fetch the result
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+            push @SurveyIDs, $Row[0];
+        }
+    }
+    else {
+
+        # get the survey request
+        my %RequestData = $Self->{SurveyObject}->RequestGet(
+            PublicSurveyKey => $Param{PublicSurveyKey},
+        );
+
+        # add the survey
+        if ( %RequestData ) {
+            push @SurveyIDs, $RequestData{SurveyID};
+        }
+    }
+
+    for my $SurveyID ( @SurveyIDs ) {
+
+    # return, no master survey found
+    next if !$SurveyID;
+
     # create PublicSurveyKey
     my $PublicSurveyKey;
     if ( !$Param{PublicSurveyKey} ) {
@@ -110,26 +142,6 @@ sub RequestSend {
     else {
         $PublicSurveyKey = $Param{PublicSurveyKey};
     }
-
-    # find master survey
-    my $Status = 'Master';
-    $Self->{DBObject}->Prepare(
-        SQL => '
-            SELECT id
-            FROM survey
-            WHERE status = ?',
-        Bind  => [ \$Status ],
-        Limit => 1,
-    );
-
-    # fetch the result
-    my $SurveyID;
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $SurveyID = $Row[0];
-    }
-
-    # return, no master survey found
-    return if !$SurveyID;
 
     # get the survey
     my %Survey = $Self->SurveyGet(
@@ -157,7 +169,7 @@ sub RequestSend {
             last QUEUE;
         }
 
-        return if !$Found;
+        next if !$Found;
     }
 
     # check if the for send condition ticket type check is enabled
@@ -471,7 +483,7 @@ sub RequestSend {
     );
 
     # send survey
-    return $Self->{SendmailObject}->Send(
+    $Self->{SendmailObject}->Send(
         From     => $Survey{NotificationSender},
         To       => $To,
         Subject  => $Subject,
@@ -479,6 +491,8 @@ sub RequestSend {
         Charset  => $Charset,
         Body     => $Body,
     ) if ( !$SendInHoursAfterClose || $Param{TriggerSendRequests} );
+
+    }
 }
 
 =item RequestCount()

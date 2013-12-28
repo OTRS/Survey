@@ -938,17 +938,6 @@ sub SurveyStatusSet {
         }
 
         # set new status
-        if ( $Param{NewStatus} eq 'Master' ) {
-            my $ValidStatus = 'Valid';
-            $Self->{DBObject}->Do(
-                SQL => '
-                    UPDATE survey
-                    SET status = ?
-                    WHERE status = ?',
-                Bind => [ \$ValidStatus, \$Param{NewStatus}, ],
-            );
-
-        }
         if ( $Param{NewStatus} eq 'Valid' || $Param{NewStatus} eq 'Master' ) {
             $Self->{DBObject}->Do(
                 SQL => '
@@ -963,15 +952,6 @@ sub SurveyStatusSet {
 
         # set status Master
         if ( $Param{NewStatus} eq 'Master' ) {
-
-            # set any 'Master' survey to 'Valid'
-            $Self->{DBObject}->Do(
-                SQL => '
-                    UPDATE survey
-                    SET status = ?
-                    WHERE status = ?',
-                Bind => [ \$Status, \$Param{NewStatus}, ],
-            );
 
             # set 'Master' to given survey
             $Self->{DBObject}->Do(
