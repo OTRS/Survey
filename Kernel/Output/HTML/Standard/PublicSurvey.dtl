@@ -13,6 +13,19 @@
         <h2>$Text{"Survey"}: $QData{"Title"}</h2>
     </div>
 
+<!-- dtl:block:PublicTicket -->
+    <div class="SurveyBlock">
+        <div class="SurveyBlockHeader">
+            $Text{"Ticket"}
+        </div>
+        <div class="Content">
+            $Config{"Ticket::Hook"}$Data{"TicketNumber"} <span>&mdash;</span> $QData{"Title", "600"}
+        </div>
+    </div>
+
+    <div class="Clear"></div>
+<!-- dtl:block:PublicTicket -->
+
     <div class="SurveyBlock">
         <div class="SurveyBlockHeader">
             $Text{"Introduction"}
