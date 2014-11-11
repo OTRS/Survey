@@ -494,6 +494,14 @@ sub RequestSend {
         Charset => $Charset,
     );
 
+    if ( $Survey{UseQueueAddress} ) {
+        my %Email = $Kernel::OM->Get('Kernel::System::Queue')->GetSystemAddress(
+            QueueID => $Ticket{QueueID},
+        );
+
+        $Survey{NotificationSender} = sprintf "%s <%s>", $Email{RealName}, $Email{Email};
+    }
+
     # send survey
     if ( !$SendInHoursAfterClose || $Param{TriggerSendRequests} ) {
         return $Kernel::OM->Get('Kernel::System::Email')->Send(

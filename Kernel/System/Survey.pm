@@ -35,6 +35,7 @@ our @ObjectDependencies = (
     'Kernel::System::Ticket',
     'Kernel::System::Time',
     'Kernel::System::YAML',
+    'Kernel::System::Queue',
 );
 
 =head1 NAME
@@ -101,7 +102,7 @@ sub SurveyAdd {
     for my $Argument (
         qw(
         UserID Title Introduction Description
-        NotificationSender NotificationSubject NotificationBody
+        NotificationSubject NotificationBody
         )
         )
     {
@@ -113,6 +114,13 @@ sub SurveyAdd {
 
             return;
         }
+    }
+
+    if ( !$Param{UseQueueAddress} && !$Param{NotificationSender} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need either UseQueueAddress or NotificationSender",
+        );
     }
 
     # build send condition string
@@ -127,13 +135,13 @@ sub SurveyAdd {
         SQL => '
             INSERT INTO survey (title, introduction, description, notification_sender,
                 notification_subject, notification_body, status, send_conditions, create_time, create_by,
-                change_time, change_by )
+                change_time, change_by, use_queue_address )
             VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
             \$Param{Title},              \$Param{Introduction},        \$Param{Description},
             \$Param{NotificationSender}, \$Param{NotificationSubject}, \$Param{NotificationBody},
             \$Status, \$SendConditionStrg, \$Param{UserID},
-            \$Param{UserID},
+            \$Param{UserID}, \$Param{UseQueueAddress},
         ],
     );
 
@@ -209,7 +217,7 @@ sub SurveyGet {
         SQL => '
             SELECT id, surveynumber, title, introduction, description, notification_sender,
                 notification_subject, notification_body, status, send_conditions, create_time, create_by,
-                change_time, change_by
+                change_time, change_by, use_queue_address
             FROM survey
             WHERE id = ?',
         Bind  => [ \$Param{SurveyID} ],
@@ -246,6 +254,7 @@ sub SurveyGet {
         $Data{CreateBy}            = $Row[11];
         $Data{ChangeTime}          = $Row[12];
         $Data{ChangeBy}            = $Row[13];
+        $Data{UseQueueAddress}     = $Row[14];
     }
 
     if ( !%Data ) {
@@ -261,7 +270,10 @@ sub SurveyGet {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # set default values
-    $Data{NotificationSender}  ||= $ConfigObject->Get('Survey::NotificationSender');
+    if ( !$Data{UseQueueAddress} ) {
+        $Data{NotificationSender} ||= $ConfigObject->Get('Survey::NotificationSender');
+    }
+
     $Data{NotificationSubject} ||= $ConfigObject->Get('Survey::NotificationSubject');
     $Data{NotificationBody}    ||= $ConfigObject->Get('Survey::NotificationBody');
 
@@ -326,7 +338,7 @@ sub SurveyUpdate {
     for my $Argument (
         qw(
         UserID SurveyID Title Introduction Description
-        NotificationSender NotificationSubject NotificationBody
+        NotificationSubject NotificationBody
         )
         )
     {
@@ -348,6 +360,13 @@ sub SurveyUpdate {
         );
 
         return;
+    }
+
+    if ( !$Param{UseQueueAddress} && !$Param{NotificationSender} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need either UseQueueAddress or NotificationSender",
+        );
     }
 
     # set default value
