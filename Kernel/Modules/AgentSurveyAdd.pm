@@ -67,7 +67,7 @@ sub Run {
         my %ServerError;
         my %FormElements;
         for my $Item (
-            qw( Title Introduction Description NotificationSender NotificationSubject NotificationBody )
+            qw( Title Introduction Description NotificationSubject NotificationBody )
             )
         {
             $FormElements{$Item} = $Self->{ParamObject}->GetParam( Param => "$Item" );
@@ -75,6 +75,12 @@ sub Run {
             if ( !$FormElements{$Item} ) {
                 $ServerError{ "$Item" . 'ServerError' } = 'ServerError';
             }
+        }
+
+        $FormElements{UseQueueAddress}    = $Self->{ParamObject}->GetParam( Param => 'UseQueueAddress' );
+        $FormElements{NotificationSender} = $Self->{ParamObject}->GetParam( Param => 'NotificationSender' );
+        if ( !$FormElements{UseQueueAddress} && !$FormElements{NotificationSender} ) {
+            $ServerError{NotificationSenderError} = 'ServerError';
         }
 
         # get array params
@@ -287,14 +293,22 @@ sub _SurveyAddMask {
         );
     }
 
+    my $NotificationSender;
+    if ( ( !$Param{FormElements} && $Param{UseQueueAddress} ) || $FormElements{UseQueueAddress} ) {
+        $FormElements{UseQueueAddress} = 'checked="checked"';
+    }
+    elsif ( !$Param{FormElements} ) {
+        $NotificationSender = $FormElements{NotificationSender}
+            || $Param{NotificationSender}
+            || $Self->{ConfigObject}->Get('Survey::NotificationSender');
+    }
+
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentSurveyAdd',
         Data         => {
             %Param,
-            QueueString        => $QueueString,
-            NotificationSender => $FormElements{NotificationSender}
-                || $Param{NotificationSender}
-                || $Self->{ConfigObject}->Get('Survey::NotificationSender'),
+            QueueString         => $QueueString,
+            NotificationSender  => $NotificationSender,
             NotificationSubject => $FormElements{NotificationSubject}
                 || $Param{NotificationSubject}
                 || $Self->{ConfigObject}->Get('Survey::NotificationSubject'),

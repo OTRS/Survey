@@ -44,6 +44,16 @@
                 <label class="Mandatory" for="NotificationSender"><span class="Marker">*</span> [% Translate("Sender") | html %]:</label>
                 <div class="Field">
                     <input id="NotificationSender" name="NotificationSender" type="text" class="W75pc Validate_Required [% Data.NotificationSenderServerError | html %]" value="[% Data.NotificationSender | html %]" />
+                        <input id="UseQueueAddress" name="UseQueueAddress" type="checkbox" [% Data.UseQueueAddress %] />[% Translate("Use Queue address") | html %]
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    if ( $('#UseQueueAddress').is(':checked') ) { $('#NotificationSender').removeClass('Validate_Required'); }
+    $('#UseQueueAddress').bind('click', function() {
+        if ( $(this).is(':checked') ) { $('#NotificationSender').removeClass('Validate_Required'); }
+        else                          { $('#NotificationSender').addClass('Validate_Required'); }
+    });
+//]]></script>
+[% END %]
                 </div>
                 <div class="Clear"></div>
 
