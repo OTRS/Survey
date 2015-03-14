@@ -210,7 +210,9 @@ sub VoteCount {
         SQL => '
             SELECT COUNT(vote_value)
             FROM survey_vote
-            WHERE question_id = ? AND vote_value = ?',
+            WHERE question_id = ? AND (vote_value = ?'
+            . ( $Param{VoteValue} eq '' ? ' OR vote_value IS NULL' : '' )
+            . ')',
         Bind  => [ \$Param{QuestionID}, \$Param{VoteValue}, ],
         Limit => 1,
     );
