@@ -11,9 +11,7 @@ package Kernel::Modules::PublicSurvey;
 use strict;
 use warnings;
 
-use Kernel::System::Survey;
-use Kernel::System::HTMLUtils;
-use Kernel::System::Ticket;
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -24,16 +22,6 @@ sub new {
 
     # get common objects
     %{$Self} = %Param;
-
-    # check needed objects
-    for my $Object (qw(ParamObject DBObject LayoutObject LogObject ConfigObject UserObject)) {
-        if ( !$Self->{$Object} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $Object!" );
-        }
-    }
-    $Self->{SurveyObject}    = Kernel::System::Survey->new(%Param);
-    $Self->{HTMLUtilsObject} = Kernel::System::HTMLUtils->new(%Param);
-    $Self->{TicketObject}    = Kernel::System::Ticket->new(%Param);
 
     return $Self;
 }
@@ -47,18 +35,24 @@ sub Run {
     my %Errors;
     my @QuestionList;
 
+    # get needed object
+    my $SurveyObject = $Kernel::OM->Get('Kernel::System::Survey');
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # ------------------------------------------------------------ #
     # public survey vote
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'PublicSurveyVote' ) {
-        my $PublicSurveyKey = $Self->{ParamObject}->GetParam( Param => 'PublicSurveyKey' );
-        my %Survey = $Self->{SurveyObject}->PublicSurveyGet( PublicSurveyKey => $PublicSurveyKey );
+        my $PublicSurveyKey = $ParamObject->GetParam( Param => 'PublicSurveyKey' );
+        my %Survey = $SurveyObject->PublicSurveyGet( PublicSurveyKey => $PublicSurveyKey );
         if ( $Survey{SurveyID} ) {
-            @QuestionList = $Self->{SurveyObject}->QuestionList( SurveyID => $Survey{SurveyID} );
+            @QuestionList = $SurveyObject->QuestionList( SurveyID => $Survey{SurveyID} );
 
             for my $Question (@QuestionList) {
                 if ( $Question->{Type} eq 'YesNo' ) {
-                    my $PublicSurveyVote1 = $Self->{ParamObject}->GetParam(
+                    my $PublicSurveyVote1 = $ParamObject->GetParam(
                         Param => "PublicSurveyVote1[$Question->{QuestionID}]"
                     );
 
@@ -74,7 +68,7 @@ sub Run {
                     $Answers{ $Question->{QuestionID} } = $PublicSurveyVote1;
                 }
                 elsif ( $Question->{Type} eq 'Radio' ) {
-                    my $PublicSurveyVote2 = $Self->{ParamObject}->GetParam(
+                    my $PublicSurveyVote2 = $ParamObject->GetParam(
                         Param => "PublicSurveyVote2[$Question->{QuestionID}]"
                     );
 
@@ -89,12 +83,12 @@ sub Run {
                     $Answers{ $Question->{QuestionID} } = $PublicSurveyVote2;
                 }
                 elsif ( $Question->{Type} eq 'Checkbox' ) {
-                    my @AnswerList = $Self->{SurveyObject}->AnswerList(
+                    my @AnswerList = $SurveyObject->AnswerList(
                         QuestionID => $Question->{QuestionID}
                     );
 
                     for my $Answer (@AnswerList) {
-                        my $PublicSurveyVote3 = $Self->{ParamObject}->GetParam(
+                        my $PublicSurveyVote3 = $ParamObject->GetParam(
                             Param => "PublicSurveyVote3[$Answer->{AnswerID}]"
                         );
                         if ( $PublicSurveyVote3 && $PublicSurveyVote3 eq 'Yes' ) {
@@ -116,12 +110,12 @@ sub Run {
                     }
                 }
                 elsif ( $Question->{Type} eq 'Textarea' ) {
-                    my $PublicSurveyVote4 = $Self->{ParamObject}->GetParam(
+                    my $PublicSurveyVote4 = $ParamObject->GetParam(
                         Param => "PublicSurveyVote4[$Question->{QuestionID}]"
                     );
 
                     # check if rich text is enabled
-                    if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+                    if ( $LayoutObject->{BrowserRichText} ) {
                         $PublicSurveyVote4 = ( length $PublicSurveyVote4 )
                             ? "\$html/text\$ $PublicSurveyVote4"
                             : '';
@@ -142,21 +136,21 @@ sub Run {
             if ( !scalar keys %Errors ) {
                 for my $Question (@QuestionList) {
                     if ( $Question->{Type} eq 'YesNo' ) {
-                        $Self->{SurveyObject}->PublicAnswerSet(
+                        $SurveyObject->PublicAnswerSet(
                             PublicSurveyKey => $PublicSurveyKey,
                             QuestionID      => $Question->{QuestionID},
                             VoteValue       => $Answers{ $Question->{QuestionID} },
                         );
                     }
                     elsif ( $Question->{Type} eq 'Radio' ) {
-                        $Self->{SurveyObject}->PublicAnswerSet(
+                        $SurveyObject->PublicAnswerSet(
                             PublicSurveyKey => $PublicSurveyKey,
                             QuestionID      => $Question->{QuestionID},
                             VoteValue       => $Answers{ $Question->{QuestionID} },
                         );
                     }
                     elsif ( $Question->{Type} eq 'Checkbox' ) {
-                        my @AnswerList = $Self->{SurveyObject}->AnswerList(
+                        my @AnswerList = $SurveyObject->AnswerList(
                             QuestionID => $Question->{QuestionID}
                         );
                         if (
@@ -166,7 +160,7 @@ sub Run {
                             )
                         {
                             for my $Answer ( @{ $Answers{ $Question->{QuestionID} } } ) {
-                                $Self->{SurveyObject}->PublicAnswerSet(
+                                $SurveyObject->PublicAnswerSet(
                                     PublicSurveyKey => $PublicSurveyKey,
                                     QuestionID      => $Question->{QuestionID},
                                     VoteValue       => $Answer,
@@ -175,18 +169,18 @@ sub Run {
                         }
                     }
                     elsif ( $Question->{Type} eq 'Textarea' ) {
-                        $Self->{SurveyObject}->PublicAnswerSet(
+                        $SurveyObject->PublicAnswerSet(
                             PublicSurveyKey => $PublicSurveyKey,
                             QuestionID      => $Question->{QuestionID},
                             VoteValue       => $Answers{ $Question->{QuestionID} },
                         );
                     }
                 }
-                $Self->{SurveyObject}->PublicSurveyInvalidSet( PublicSurveyKey => $PublicSurveyKey );
-                $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Survey' );
+                $SurveyObject->PublicSurveyInvalidSet( PublicSurveyKey => $PublicSurveyKey );
+                $Output = $LayoutObject->CustomerHeader( Title => 'Survey' );
 
                 # print the main table.
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'PublicSurveyMessage',
                     Data => {
                         MessageType   => 'Survey Information',
@@ -195,11 +189,11 @@ sub Run {
                     },
                 );
 
-                $Output .= $Self->{LayoutObject}->Output(
+                $Output .= $LayoutObject->Output(
                     TemplateFile => 'PublicSurvey',
                     Data         => {%Param},
                 );
-                $Output .= $Self->{LayoutObject}->CustomerFooter();
+                $Output .= $LayoutObject->CustomerFooter();
 
                 return $Output;
             }
@@ -210,13 +204,13 @@ sub Run {
     # show survey vote data
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ShowVoteData' ) {
-        my $PublicSurveyKey = $Self->{ParamObject}->GetParam( Param => 'PublicSurveyKey' );
+        my $PublicSurveyKey = $ParamObject->GetParam( Param => 'PublicSurveyKey' );
 
         # return if feature not enabled
-        if ( !$Self->{ConfigObject}->Get("Survey::ShowVoteData") ) {
-            $Output .= $Self->{LayoutObject}->CustomerHeader();
+        if ( !$ConfigObject->Get("Survey::ShowVoteData") ) {
+            $Output .= $LayoutObject->CustomerHeader();
 
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'PublicSurveyMessage',
                 Data => {
                     MessageType   => 'Survey Message!',
@@ -226,17 +220,17 @@ sub Run {
                 },
             );
 
-            $Output .= $Self->{LayoutObject}->Output(
+            $Output .= $LayoutObject->Output(
                 TemplateFile => 'PublicSurvey',
             );
 
-            $Output .= $Self->{LayoutObject}->CustomerFooter();
+            $Output .= $LayoutObject->CustomerFooter();
 
             return $Output;
         }
 
         # Get the request data and start showing the data
-        my %RequestData = $Self->{SurveyObject}->RequestGet(
+        my %RequestData = $SurveyObject->RequestGet(
             PublicSurveyKey => $PublicSurveyKey,
         );
 
@@ -246,26 +240,26 @@ sub Run {
 
         # check if survey exists
         if (
-            $Self->{SurveyObject}->ElementExists(
+            $SurveyObject->ElementExists(
                 ElementID => $SurveyID,
                 Element   => 'Survey'
             ) ne
             'Yes'
-            || $Self->{SurveyObject}->ElementExists(
+            || $SurveyObject->ElementExists(
                 ElementID => $RequestID,
                 Element   => 'Request'
             )
             ne 'Yes'
             )
         {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Message  => "Wrong public survey key: $PublicSurveyKey!",
                 Priority => 'info',
             );
 
-            $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Survey' );
+            $Output = $LayoutObject->CustomerHeader( Title => 'Survey' );
 
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'PublicSurveyMessage',
                 Data => {
                     MessageType   => 'Survey Error!',
@@ -275,17 +269,17 @@ sub Run {
                 },
             );
 
-            $Output .= $Self->{LayoutObject}->Output(
+            $Output .= $LayoutObject->Output(
                 TemplateFile => 'PublicSurvey',
             );
 
-            $Output .= $Self->{LayoutObject}->CustomerFooter();
+            $Output .= $LayoutObject->CustomerFooter();
             return $Output;
         }
 
-        $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Survey Vote' );
+        $Output = $LayoutObject->CustomerHeader( Title => 'Survey Vote' );
 
-        my %Survey = $Self->{SurveyObject}->SurveyGet(
+        my %Survey = $SurveyObject->SurveyGet(
             SurveyID => $SurveyID,
             Public   => 1,
         );
@@ -296,7 +290,7 @@ sub Run {
 
             my $HTMLContent = $1;
             if ( !$HTMLContent ) {
-                $Survey{Introduction} = $Self->{LayoutObject}->Ascii2Html(
+                $Survey{Introduction} = $LayoutObject->Ascii2Html(
                     Text           => $Survey{Introduction},
                     HTMLResultMode => 1,
                 );
@@ -304,14 +298,14 @@ sub Run {
         }
 
         # print the main table.
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'PublicSurveyVoteData',
             Data => {
                 %Survey,
                 MessageType => 'Survey Vote Data',
             },
         );
-        my @QuestionList = $Self->{SurveyObject}->QuestionList( SurveyID => $SurveyID );
+        my @QuestionList = $SurveyObject->QuestionList( SurveyID => $SurveyID );
         for my $Question (@QuestionList) {
 
             my $Class = '';
@@ -325,7 +319,7 @@ sub Run {
                 $RequiredText = '* ';
             }
 
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'PublicSurveyVoteQuestion',
                 Data => {
                     %{$Question},
@@ -336,19 +330,19 @@ sub Run {
             my @Answers;
             if ( $Question->{Type} eq 'Radio' || $Question->{Type} eq 'Checkbox' ) {
                 my @AnswerList;
-                @AnswerList = $Self->{SurveyObject}->VoteGet(
+                @AnswerList = $SurveyObject->VoteGet(
                     RequestID  => $RequestID,
                     QuestionID => $Question->{QuestionID},
                 );
                 for my $Row (@AnswerList) {
-                    my %Answer = $Self->{SurveyObject}->AnswerGet( AnswerID => $Row->{VoteValue} );
+                    my %Answer = $SurveyObject->AnswerGet( AnswerID => $Row->{VoteValue} );
                     my %Data;
                     $Data{Answer} = $Answer{Answer};
                     push( @Answers, \%Data );
                 }
             }
             elsif ( $Question->{Type} eq 'YesNo' || $Question->{Type} eq 'Textarea' ) {
-                my @List = $Self->{SurveyObject}->VoteGet(
+                my @List = $SurveyObject->VoteGet(
                     RequestID  => $RequestID,
                     QuestionID => $Question->{QuestionID},
                 );
@@ -359,20 +353,20 @@ sub Run {
                 # clean HTML
                 if ( $Question->{Type} eq 'Textarea' && $Data{Answer} ) {
                     $Data{Answer} =~ s{\A\$html\/text\$\s(.*)}{$1}xms;
-                    $Data{Answer} = $Self->{LayoutObject}->Ascii2Html(
+                    $Data{Answer} = $LayoutObject->Ascii2Html(
                         Text           => $Data{Answer},
                         HTMLResultMode => 1,
                     );
 
                     if ($1) {
                         $Data{Answer} =
-                            $Self->{HTMLUtilsObject}->ToAscii( String => $Data{Answer} );
+                            $Kernel::OM->Get('Kernel::System::HTMLUtils')->ToAscii( String => $Data{Answer} );
                     }
                 }
                 push( @Answers, \%Data );
             }
             for my $Row (@Answers) {
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'PublicSurveyVoteAnswer',
                     Data => {
                         %{$Row},
@@ -381,10 +375,10 @@ sub Run {
                 );
             }
         }
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'PublicSurvey',
         );
-        $Output .= $Self->{LayoutObject}->CustomerFooter();
+        $Output .= $LayoutObject->CustomerFooter();
 
         return $Output;
     }
@@ -392,20 +386,20 @@ sub Run {
     # ------------------------------------------------------------ #
     # show survey
     # ------------------------------------------------------------ #
-    my $PublicSurveyKey = $Self->{ParamObject}->GetParam( Param => 'PublicSurveyKey' );
-    $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Survey' );
+    my $PublicSurveyKey = $ParamObject->GetParam( Param => 'PublicSurveyKey' );
+    $Output = $LayoutObject->CustomerHeader( Title => 'Survey' );
 
-    my $UsedSurveyKey = $Self->{SurveyObject}->PublicSurveyGet(
+    my $UsedSurveyKey = $SurveyObject->PublicSurveyGet(
         PublicSurveyKey => $PublicSurveyKey,
         Invalid         => 1,
     );
 
-    my %Survey = $Self->{SurveyObject}->PublicSurveyGet( PublicSurveyKey => $PublicSurveyKey );
+    my %Survey = $SurveyObject->PublicSurveyGet( PublicSurveyKey => $PublicSurveyKey );
 
     $Survey{PublicSurveyKey} = $PublicSurveyKey;
 
     if ($UsedSurveyKey) {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'PublicSurveyMessage',
             Data => {
                 MessageType   => 'Survey Information',
@@ -414,8 +408,8 @@ sub Run {
             },
         );
 
-        if ( $Self->{ConfigObject}->Get("Survey::ShowVoteData") ) {
-            $Self->{LayoutObject}->Block(
+        if ( $ConfigObject->Get("Survey::ShowVoteData") ) {
+            $LayoutObject->Block(
                 Name => 'ShowAnswersButton',
                 Data => {
                     PublicSurveyKey => $PublicSurveyKey,
@@ -429,37 +423,37 @@ sub Run {
         $Survey{Introduction} =~ s{\A\$html\/text\$\s(.*)}{$1}xms;
         my $HTMLContent = $1;
         if ( !$HTMLContent ) {
-            $Survey{Introduction} = $Self->{LayoutObject}->Ascii2Html(
+            $Survey{Introduction} = $LayoutObject->Ascii2Html(
                 Text           => $Survey{Introduction},
                 HTMLResultMode => 1,
             );
         }
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'PublicSurvey',
             Data => {%Survey},
         );
 
         # get ticket
-        my %RequestData = $Self->{SurveyObject}->RequestGet(
+        my %RequestData = $SurveyObject->RequestGet(
             PublicSurveyKey => $PublicSurveyKey,
         );
-        my %Ticket = $Self->{TicketObject}->TicketGet(
+        my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
             TicketID => $RequestData{TicketID},
         );
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'PublicTicket',
             Data => {%Ticket},
         );
 
         # If we had errors, @QuestionList is already filled, so let's save a SQL query
         if ( !@QuestionList ) {
-            @QuestionList = $Self->{SurveyObject}->QuestionList( SurveyID => $Survey{SurveyID} );
+            @QuestionList = $SurveyObject->QuestionList( SurveyID => $Survey{SurveyID} );
         }
 
         for my $Question (@QuestionList) {
 
-            $Self->{LayoutObject}->Block( Name => 'PublicQuestions' );
+            $LayoutObject->Block( Name => 'PublicQuestions' );
 
             my $Class        = '';
             my $RequiredText = '';
@@ -514,7 +508,7 @@ sub Run {
                 $ErrorText = '<p>'
                     . (
                     join "</p>\n<p>",
-                    map { $Self->{LayoutObject}->{LanguageObject}->Get($_) }
+                    map { $LayoutObject->{LanguageObject}->Get($_) }
                         keys %{ $Errors{ $Question->{QuestionID} } }
                     )
                     . '</p>';
@@ -549,7 +543,7 @@ END
                     : '',
                 );
 
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'PublicAnswerYesNo',
                     Data => {
                         %{$Question},
@@ -561,7 +555,7 @@ END
                 );
             }
             elsif ( $Question->{Type} eq 'Radio' ) {
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'PublicAnswerRadio',
                     Data => {
                         %{$Question},
@@ -570,7 +564,7 @@ END
                         RequiredText => $RequiredText,
                         }
                 );
-                my @AnswerList = $Self->{SurveyObject}->AnswerList(
+                my @AnswerList = $SurveyObject->AnswerList(
                     QuestionID => $Question->{QuestionID},
                 );
                 for my $Answer (@AnswerList) {
@@ -583,7 +577,7 @@ END
                     {
                         $Selected = 'checked="checked"';
                     }
-                    $Self->{LayoutObject}->Block(
+                    $LayoutObject->Block(
                         Name => 'PublicAnswerRadiob',
                         Data => {
                             %{$Answer},
@@ -593,7 +587,7 @@ END
                 }
             }
             elsif ( $Question->{Type} eq 'Checkbox' ) {
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'PublicAnswerCheckbox',
                     Data => {
                         %{$Question},
@@ -602,7 +596,7 @@ END
                         RequiredText => $RequiredText,
                         }
                 );
-                my @AnswerList = $Self->{SurveyObject}->AnswerList(
+                my @AnswerList = $SurveyObject->AnswerList(
                     QuestionID => $Question->{QuestionID},
                 );
                 for my $Answer (@AnswerList) {
@@ -617,7 +611,7 @@ END
                     {
                         $Selected = 'checked="checked"';
                     }
-                    $Self->{LayoutObject}->Block(
+                    $LayoutObject->Block(
                         Name => 'PublicAnswerCheckboxb',
                         Data => {
                             %{$Answer},
@@ -629,7 +623,7 @@ END
             elsif ( $Question->{Type} eq 'Textarea' ) {
                 my $Value = $Answers{ $Question->{QuestionID} } || '';
                 $Value =~ s/^\$html\/text\$\s//;
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'PublicAnswerTextarea',
                     Data => {
                         %{$Question},
@@ -641,14 +635,14 @@ END
                 );
 
                 # check if rich text is enabled
-                if ( $Self->{LayoutObject}->{BrowserRichText} ) {
-                    $Self->{LayoutObject}->Block( Name => 'RichText' );
+                if ( $LayoutObject->{BrowserRichText} ) {
+                    $LayoutObject->Block( Name => 'RichText' );
                 }
             }
         }
     }
     else {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'PublicSurveyMessage',
             Data => {
                 MessageType   => 'Survey Error!',
@@ -658,11 +652,11 @@ END
             },
         );
     }
-    $Output .= $Self->{LayoutObject}->Output(
+    $Output .= $LayoutObject->Output(
         TemplateFile => 'PublicSurvey',
         Data         => {%Param},
     );
-    $Output .= $Self->{LayoutObject}->CustomerFooter();
+    $Output .= $LayoutObject->CustomerFooter();
 
     return $Output;
 }
