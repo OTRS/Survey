@@ -35,7 +35,7 @@ $Selenium->RunTest(
         );
         $Self->True(
             $SurveyID,
-            "Survey ID $SurveyID - deleted",
+            "Survey ID $SurveyID - created",
         );
 
         # create test user and login
