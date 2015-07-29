@@ -77,9 +77,23 @@ $Selenium->RunTest(
             "Link from Overview to Zoom view - success",
         );
 
+        # get DB object
+        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+        # clean-up test created survey data
+        my $Success = $DBObject->Do(
+            SQL  => "DELETE FROM survey_queue WHERE survey_id = ?",
+            Bind => [ \$SurveyID ],
+        );
+        $Self->True(
+            $Success,
+            "Survey-Queue for $SurveyTitle- deleted",
+        );
+
         # delete test created survey
-        my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
-            SQL => "DELETE FROM survey WHERE id = $SurveyID",
+        $Success = $DBObject->Do(
+            SQL  => "DELETE FROM survey WHERE id = ?",
+            Bind => [ \$SurveyID ],
         );
         $Self->True(
             $Success,

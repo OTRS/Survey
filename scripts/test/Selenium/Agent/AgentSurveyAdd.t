@@ -79,10 +79,30 @@ $Selenium->RunTest(
 
         # delete test created survey
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-        $SurveyTitle = $DBObject->Quote($SurveyTitle);
+
+        my $SurveyTitleQuoted = $DBObject->Quote($SurveyTitle);
+        $DBObject->Prepare(
+            SQL  => "SELECT id FROM survey WHERE title = ?",
+            Bind => [ \$SurveyTitleQuoted ]
+        );
+        my $SurveyID;
+        while ( my @Row = $DBObject->FetchrowArray() ) {
+            $SurveyID = $Row[0];
+        }
+
+        # clean-up test created survey data
         my $Success = $DBObject->Do(
-            SQL  => "DELETE FROM survey WHERE title = ?",
-            Bind => [ \$SurveyTitle ],
+            SQL  => "DELETE FROM survey_queue WHERE survey_id = ?",
+            Bind => [ \$SurveyID ],
+        );
+        $Self->True(
+            $Success,
+            "Survey-Queue for $SurveyTitle- deleted",
+        );
+
+        $Success = $DBObject->Do(
+            SQL  => "DELETE FROM survey WHERE id = ?",
+            Bind => [ \$SurveyID ],
         );
         $Self->True(
             $Success,
