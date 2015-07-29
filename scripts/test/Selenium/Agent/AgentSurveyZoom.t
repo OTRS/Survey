@@ -97,8 +97,7 @@ $Selenium->RunTest(
 
         # delete test created survey
         my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
-            SQL  => "DELETE FROM survey WHERE id = $SurveyID",
-            Bind => [ \$SurveyID ],
+            SQL => "DELETE FROM survey WHERE id = $SurveyID",
         );
         $Self->True(
             $Success,
