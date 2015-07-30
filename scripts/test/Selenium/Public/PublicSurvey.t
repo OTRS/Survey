@@ -226,7 +226,7 @@ $Selenium->RunTest(
         }
 
         # get script alias
-        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         # navigate to PublicSurvey of created test survey
         $Selenium->get("${ScriptAlias}public.pl?Action=PublicSurvey;PublicSurveyKey=$PublicSurveyKey");
@@ -308,7 +308,7 @@ $Selenium->RunTest(
         # submit vote
         $Selenium->find_element("//button[\@value='Finish'][\@type='submit']")->click();
 
-        # verify post vote message
+        # verify post vote messages
         my $PostVote = [ "Survey Information", "Thank you for your feedback.", "The survey is finished." ];
         for my $PostVoteMessage ( @{$PostVote} ) {
             $Self->True(
@@ -415,6 +415,16 @@ $Selenium->RunTest(
                 );
             }
         }
+
+        # delete test ticket
+        $Success = $TicketObject->TicketDelete(
+            TicketID => $TicketID,
+            UserID   => 1,
+        );
+        $Self->True(
+            $Success,
+            "Ticket ID $TicketID - deleted",
+        );
     }
 );
 

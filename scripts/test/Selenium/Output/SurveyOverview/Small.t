@@ -52,7 +52,7 @@ $Selenium->RunTest(
         # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # navigate to AgentSurveyZoom of created test survey
+        # navigate to AgentSurveyOverview of created test survey
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentSurveyOverview;SurveyID=$SurveyID");
 
         # check overview screen
@@ -63,7 +63,7 @@ $Selenium->RunTest(
             );
         }
 
-        # check for test created FAQ
+        # check for test created survey
         $Self->True(
             index( $Selenium->get_page_source(), "$SurveyTitle" ) > -1,
             "$SurveyTitle - found",

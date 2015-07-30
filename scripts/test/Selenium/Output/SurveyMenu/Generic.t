@@ -75,7 +75,7 @@ $Selenium->RunTest(
             },
         );
 
-        # check change menu modules
+        # check survey menu modules
         for my $SurveyMenu (@MenuModule) {
             $Self->True(
                 $Selenium->find_element( "#$SurveyMenu->{ID}", 'css' ),
