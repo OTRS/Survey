@@ -357,7 +357,7 @@ $Selenium->RunTest(
                 ID    => $SurveyID,
             },
             {
-                Name  => 'Answer',
+                Name  => 'Answers',
                 Table => 'survey_answer',
                 SQLID => 'id',
                 ID    => [@AnswerIDs],
@@ -375,9 +375,9 @@ $Selenium->RunTest(
                 ID    => $SurveyID,
             },
             {
-                Name  => 'Vote',
+                Name  => 'Votes',
                 Table => 'survey_vote',
-                SQLID => 'question_id',
+                SQLID => 'id',
                 ID    => [@QuestionIDs],
             },
             {
@@ -393,16 +393,20 @@ $Selenium->RunTest(
         # delete test data from DB
         for my $Delete (@CleanData) {
             if ( IsArrayRefWithData( $Delete->{ID} ) ) {
-                for my $DeleteItem ( @{ $Delete->{ID} } ) {
-                    $Success = $DBObject->Do(
-                        SQL  => "DELETE FROM $Delete->{Table} WHERE $Delete->{SQLID} = ?",
-                        Bind => [ \$DeleteItem ],
-                    );
-                    $Self->True(
-                        $Success,
-                        "$Delete->{Name} ID $DeleteItem for $SurveyTitle - deleted",
-                    );
-                }
+
+                my $SQLWhere = '';
+                my $IDs = join ', ', @{ $Delete->{ID} };
+
+                $SQLWhere = "WHERE $Delete->{SQLID} IN ( $IDs )";
+
+                $Success = $DBObject->Do(
+                    SQL => "DELETE FROM $Delete->{Table} $SQLWhere",
+                );
+                $Self->True(
+                    $Success,
+                    "$Delete->{Name} for $SurveyTitle - deleted",
+                );
+
             }
             else {
                 $Success = $DBObject->Do(
