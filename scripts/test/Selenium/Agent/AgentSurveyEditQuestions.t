@@ -135,17 +135,44 @@ $Selenium->RunTest(
                 "$Questions->{Name} - completed",
             );
 
+            # click on delete icon
+            my $CheckConfirmJS = <<"JAVASCRIPT";
+(function () {
+    var lastConfirm = undefined;
+    window.confirm = function (message) {
+        lastConfirm = message;
+        return true;
+    };
+}());
+JAVASCRIPT
+            $Selenium->execute_script($CheckConfirmJS);
+
             # delete test question
             $Selenium->find_element( ".QuestionDelete", 'css' )->click();
-            $Success = $Selenium->accept_alert();
+            $Selenium->WaitFor( JavaScript => 'return $(".Dialog:visible").length === 0;' );
+
             $Self->True(
-                $Success,
+                index( $Selenium->get_page_source(), $Questions->{Name} ) == -1,
                 "$Questions->{Name} - deleted",
             );
+
         }
 
+        # get DB object
+        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+        # clean-up test created survey queue
+        $Success = $DBObject->Do(
+            SQL  => "DELETE FROM survey_queue WHERE survey_id = ?",
+            Bind => [ \$SurveyID ],
+        );
+        $Self->True(
+            $Success,
+            "Survey-Queue for $SurveyTitle- deleted",
+        );
+
         # delete test created survey
-        $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
+        $Success = $DBObject->Do(
             SQL  => "DELETE FROM survey WHERE id = ?",
             Bind => [ \$SurveyID ],
         );

@@ -351,7 +351,7 @@ $Selenium->RunTest(
         # get clean-up data
         my @CleanData = (
             {
-                Name  => 'Queue',
+                Name  => 'Queues',
                 Table => 'survey_queue',
                 SQLID => 'survey_id',
                 ID    => $SurveyID,
@@ -363,13 +363,13 @@ $Selenium->RunTest(
                 ID    => [@AnswerIDs],
             },
             {
-                Name  => 'Question',
+                Name  => 'Questions',
                 Table => 'survey_question',
-                SQLID => 'id',
-                ID    => [@QuestionIDs],
+                SQLID => 'survey_id',
+                ID    => $SurveyID,
             },
             {
-                Name  => 'Request',
+                Name  => 'Requests',
                 Table => 'survey_request',
                 SQLID => 'survey_id',
                 ID    => $SurveyID,
@@ -393,21 +393,21 @@ $Selenium->RunTest(
         # delete test data from DB
         for my $Delete (@CleanData) {
             if ( IsArrayRefWithData( $Delete->{ID} ) ) {
-                for ( @{ $Delete->{ID} } ) {
+                for my $DeleteItem ( @{ $Delete->{ID} } ) {
                     $Success = $DBObject->Do(
                         SQL  => "DELETE FROM $Delete->{Table} WHERE $Delete->{SQLID} = ?",
-                        Bind => [ \"$Delete->{ID}" ],
+                        Bind => [ \$DeleteItem ],
                     );
                     $Self->True(
                         $Success,
-                        "$Delete->{Name} ID $_ for $SurveyTitle - deleted",
+                        "$Delete->{Name} ID $DeleteItem for $SurveyTitle - deleted",
                     );
                 }
             }
             else {
                 $Success = $DBObject->Do(
                     SQL  => "DELETE FROM $Delete->{Table} WHERE $Delete->{SQLID} = ?",
-                    Bind => [ \"$Delete->{ID}" ],
+                    Bind => [ \$Delete->{ID} ],
                 );
                 $Self->True(
                     $Success,
