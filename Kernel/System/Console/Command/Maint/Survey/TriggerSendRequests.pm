@@ -52,8 +52,6 @@ sub Configure {
 sub PreRun {
     my ( $Self, %Param ) = @_;
 
-    # Perform any custom validations here. Command execution can be stopped with die().
-
     my $SendInHoursAfterClose = $Kernel::OM->Get('Kernel::Config')->Get('Survey::SendInHoursAfterClose');
     if ( !$SendInHoursAfterClose ) {
         die "No days configured in Survey::SendInHoursAfterClose.\n";
@@ -65,14 +63,20 @@ sub PreRun {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    $Self->Print("<yellow>Triggering survey requests</yellow>\n");
+    $Self->Print("<yellow>Trigger survey requests</yellow>\n");
 
-    $Self->Print( "<green>" . ( '=' x 69 ) . "</green>\n" );
+    # get type option
+    my $Type = $Self->GetOption('type');
+    ( $Type eq 'real' )
+        ? $Self->Print("<yellow>Real triggering...</yellow>\n")
+        : $Self->Print("<yellow>Dry triggering...</yellow>\n");
+
+    $Self->Print( "\n<green>" . ( '=' x 69 ) . "</green>\n" );
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    # Find survey_requests that haven't been sent yet
+    # find survey_requests that haven't been sent yet
     my $Success = $DBObject->Prepare(
         SQL => '
             SELECT id, ticket_id, create_time, public_survey_key
@@ -100,11 +104,12 @@ sub Run {
     # get time object
     my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
-    # Get SystemTime in UnixTime
+    # get SystemTime in UnixTime
     my $Now = $TimeObject->SystemTime();
 
     SURVEYREQUEST:
     for my $Line (@Rows) {
+
         for my $Val (qw(ID TicketID CreateTime)) {
             if ( !$Line->{$Val} ) {
                 $Self->PrintError("$Val missing in service_request row.\n");
@@ -112,7 +117,7 @@ sub Run {
             }
         }
 
-        # Convert create_time to unixtime
+        # convert create_time to unixtime
         my $CreateTime = $TimeObject->TimeStamp2SystemTime(
             String => $Line->{CreateTime},
         );
@@ -121,31 +126,29 @@ sub Run {
 
         # don't send for survey_requests that are younger than CreateTime + $SendINHoursAfterClose
         if ( $SendInHoursAfterClose * 3600 + $CreateTime > $Now ) {
-            $Self->PrintError(
-                "Did not send for survey_request with id $Line->{ID} because send time wasn't reached yet.\n");
+            $Self->Print(
+                "<yellow>Did not send for survey_request with id $Line->{ID} because send time wasn't reached yet.</yellow>\n"
+            );
             next SURVEYREQUEST;
         }
-
-        # get dry-run option
-        my $Dry = $Self->GetOption('dry-run') // 0;
 
         $Self->Print(
             "<yellow>Sending survey for survey_request with id $Line->{ID} that belongs to TicketID $Line->{TicketID}.</yellow>\n"
         );
-        if ( $Dry && $Line->{ID} && $Line->{TicketID} ) {
-            $Kernel::OM->Get('Kernel::System::Survey')->RequestSend(
+
+        if ( $Type eq 'real' && $Line->{ID} && $Line->{TicketID} ) {
+            my $Success = $Kernel::OM->Get('Kernel::System::Survey')->RequestSend(
                 TriggerSendRequests => 1,
                 SurveyRequestID     => $Line->{ID},
                 TicketID            => $Line->{TicketID},
                 PublicSurveyKey     => $Line->{PublicSurveyKey},
             );
-            $Self->Print("<green>Request is sent.</green>\n");
+            $Self->Print("<green>Request is sent.</green>\n") if $Success;
         }
     }
 
-    $Self->Print("<green>Done.</green>\n");
-
-    $Self->Print( "<green>" . ( '=' x 69 ) . "</green>\n" );
+    $Self->Print("\n<green>Done.</green>\n");
+    $Self->Print( "\n<green>" . ( '=' x 69 ) . "</green>\n" );
     return $Self->ExitCodeOk();
 }
 
