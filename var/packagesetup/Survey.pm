@@ -382,6 +382,20 @@ sub _MigrateConfigs {
         Value => $Setting->{'Small'},
     );
 
+    # migrate survey preference sysconfig
+    # get setting content for survey sysconfig
+    $Setting = $ConfigObject->Get('PreferencesGroups');
+
+    # update module location
+    $Setting->{'SurveyOverviewSmallPageShown'}->{Module} = "Kernel::Output::HTML::Preferences::Generic";
+
+    # set new setting
+    $Success = $SysConfigObject->ConfigItemUpdate(
+        Valid => 1,
+        Key   => 'PreferencesGroups###SurveyOverviewSmallPageShown',
+        Value => $Setting->{'SurveyOverviewSmallPageShown'},
+    );
+
     return 1;
 }
 
