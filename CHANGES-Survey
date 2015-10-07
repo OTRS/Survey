@@ -6,6 +6,12 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+4.0.2 - 2015-??-??
+ - 2015-10-06 Added French language, thanks to the translation team.
+ - 2015-10-06 Added Galician language, thanks to the translation team.
+ - 2015-10-06 Added Hungarian language, thanks to the translation team.
+ - 2015-10-06 Added Vietnamese language, thanks to the translation team.
+ - 2015-10-06 Updated translations, thanks to all translators
 4.0.1 - 2014-11-25
  - 2014-11-21 Added code to migrate DTL code in SysConfig settings to TT during package update.
  - 2014-11-20 Added Serbian Cyrillic language
