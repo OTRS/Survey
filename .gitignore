@@ -2,3 +2,4 @@
 .includepath
 .settings
 .DS_Store
+*.old
