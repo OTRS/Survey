@@ -288,11 +288,11 @@ sub RequestSend {
         my %Article = $TicketObject->ArticleLastCustomerArticle(
             TicketID => $Param{TicketID},
         );
-        if ( $Article{SenderType} eq 'agent' ) {
-            $ToString = $Article{To};
+        if ( $Article{SenderType} eq 'customer' ) {
+            $ToString = $Article{From};
         }
         else {
-            $ToString = $Article{From};
+            $ToString = $Article{To};
         }
     }
 
