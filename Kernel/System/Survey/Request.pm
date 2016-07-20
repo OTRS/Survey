@@ -320,7 +320,7 @@ sub RequestSend {
         )
     {
         for my $Recipient ( @{$RecipientBlacklist} ) {
-            return if defined $Recipient && length $Recipient && $To eq $Recipient;
+            return if defined $Recipient && length $Recipient && $To eq lc $Recipient;
         }
     }
 
