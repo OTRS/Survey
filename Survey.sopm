@@ -60,6 +60,7 @@
         <File Permission="644" Location="Kernel/System/Survey/Request.pm"/>
         <File Permission="644" Location="Kernel/System/Survey/Vote.pm"/>
         <File Permission="644" Location="Kernel/System/Ticket/Event/SurveySendRequest.pm"/>
+        <File Permission="644" Location="scripts/test/Survey/GetRequestRecipient.t"/>
         <File Permission="644" Location="scripts/test/Survey.t"/>
         <File Permission="644" Location="var/cron/survey_trigger_send_requests.dist"/>
         <File Permission="644" Location="var/httpd/htdocs/js/Survey.Agent.SurveyZoom.js" />
