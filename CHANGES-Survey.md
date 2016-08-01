@@ -1,4 +1,5 @@
 #5.0.2 2015-??-??
+ - 2016-08-01 Calls to old Get() method replaced with calls to new Translate() method.
  - 2016-07-22 Fixed bug#[12184](http://bugs.otrs.org/show_bug.cgi?id=12184) - Survey Blacklist not working as expected.
 
 #5.0.1 2015-10-20
