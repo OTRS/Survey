@@ -163,7 +163,7 @@
             <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
             <Column Name="request_id" Required="true" Type="BIGINT"/>
             <Column Name="question_id" Required="true" Type="BIGINT"/>
-            <Column Name="vote_value" Required="true" Size="1000" Type="VARCHAR"/>
+            <Column Name="vote_value" Required="false" Size="1000" Type="VARCHAR"/>
             <Column Name="create_time" Required="false" Type="DATE"/>
             <Index Name="survey_vote_request_id">
                 <IndexColumn Name="request_id"/>
