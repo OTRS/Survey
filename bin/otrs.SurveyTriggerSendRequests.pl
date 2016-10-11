@@ -51,7 +51,7 @@ if (
 {
     print <<EOF;
 otrs.SurveyTriggerSendRequests.pl - Trigger sending delayed survey requests
-Copyright (C) 2001-2014 OTRS AG, http://otrs.org/
+Copyright (C) 2001-2016 OTRS AG, http://otrs.com/
 
 Usage:
 
