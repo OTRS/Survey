@@ -363,9 +363,9 @@ sub Run {
     # output the possible status menu
     my %NewStatus = (
         ChangeStatus => Translatable('- Change Status -'),
-        Master       => Translatable('Master'),
-        Valid        => Translatable('Valid'),
-        Invalid      => Translatable('Invalid'),
+        Master       => Translatable('master'),
+        Valid        => Translatable('valid'),
+        Invalid      => Translatable('invalid'),
 
     );
 
@@ -382,6 +382,7 @@ sub Run {
         Data       => \%NewStatus,
         SelectedID => 'ChangeStatus',
         Title      => $LayoutObject->{LanguageObject}->Translate('New Status'),
+        Class      => 'Modernize',
     );
 
     $LayoutObject->Block(
