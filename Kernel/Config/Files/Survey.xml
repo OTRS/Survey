@@ -125,7 +125,7 @@
             <FrontendModuleReg>
                 <Description Translatable="1">Public Survey.</Description>
                 <NavBarName>Survey</NavBarName>
-                <Title>Survey</Title>
+                <Title Translatable="1">Survey</Title>
                 <Loader>
                     <CSS>Survey.Customer.Default.css</CSS>
                 </Loader>
@@ -308,7 +308,7 @@ Your OTRS-Team
         <Group>Survey</Group>
         <SubGroup>Core::Survey</SubGroup>
         <Setting>
-            <String Regex="">Survey#</String>
+            <String Regex="" Translatable="1">Survey#</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PreferencesGroups###SurveyOverviewSmallPageShown" Required="0" Valid="1">
@@ -320,7 +320,8 @@ Your OTRS-Team
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
                 <Item Key="Column">Other Settings</Item>
                 <Item Key="Label" Translatable="1">Survey Overview "Small" Limit</Item>
-                <Item Key="Key" Translatable="1">Survey limit per page for Survey Overview "Small"</Item>
+                <Item Key="Desc" Translatable="1">Survey limit per page for Survey Overview "Small".</Item>
+                <Item Key="Key" Translatable="1">Limit</Item>
                 <Item Key="Data">
                     <Hash>
                         <Item Key="10">10</Item>
@@ -345,7 +346,7 @@ Your OTRS-Team
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::SurveyMenu::Generic</Item>
-                <Item Key="Name">Back</Item>
+                <Item Key="Name" Translatable="1">Back</Item>
                 <Item Key="Description" Translatable="1">Back</Item>
                 <Item Key="Action"></Item>
                 <Item Key="Link">[% Env("LastScreenOverview") | html %]</Item>
@@ -360,8 +361,8 @@ Your OTRS-Team
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::SurveyMenu::Generic</Item>
-                <Item Key="Name">Edit General Info</Item>
-                <Item Key="Description" Translatable="1">Edit Survey General Information</Item>
+                <Item Key="Name" Translatable="1">Edit General Info</Item>
+                <Item Key="Description" Translatable="1">Edit survey general information.</Item>
                 <Item Key="Action">AgentSurveyEdit</Item>
                 <Item Key="Link">Action=AgentSurveyEdit;SurveyID=[% Data.SurveyID | html %]</Item>
                 <Item Key="Target">PopUp</Item>
@@ -375,8 +376,8 @@ Your OTRS-Team
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::SurveyMenu::Generic</Item>
-                <Item Key="Name">Edit Questions</Item>
-                <Item Key="Description" Translatable="1">Edit Survey Questions</Item>
+                <Item Key="Name" Translatable="1">Edit Questions</Item>
+                <Item Key="Description" Translatable="1">Edit survey questions.</Item>
                 <Item Key="Action">AgentSurveyEditQuestions</Item>
                 <Item Key="Link">Action=AgentSurveyEditQuestions;SurveyID=[% Data.SurveyID | html %]</Item>
                 <Item Key="Target">PopUp</Item>
@@ -390,8 +391,8 @@ Your OTRS-Team
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::SurveyMenu::Generic</Item>
-                <Item Key="Name">Stats Details</Item>
-                <Item Key="Description" Translatable="1">Zoom Into Statistics Details</Item>
+                <Item Key="Name" Translatable="1">Stats Details</Item>
+                <Item Key="Description" Translatable="1">Zoom into statistics details.</Item>
                 <Item Key="Action">AgentSurveyStats</Item>
                 <Item Key="Link">Action=AgentSurveyStats;SurveyID=[% Data.SurveyID | html %]</Item>
                 <Item Key="Target">PopUp</Item>
