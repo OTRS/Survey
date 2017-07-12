@@ -37,6 +37,7 @@ sub new {
     $Self->{HTMLUtilsObject} = Kernel::System::HTMLUtils->new( %{$Self} );
     $Self->{TypeObject}      = Kernel::System::Type->new( %{$Self} );
     $Self->{ServiceObject}   = Kernel::System::Service->new( %{$Self} );
+    $Self->{GroupObject}     = Kernel::System::Group->new( %{$Self} );
 
     return $Self;
 }
@@ -127,8 +128,36 @@ sub Run {
     # survey status
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'SurveyStatus' ) {
+
+        # Challenge token check for write action.
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $SurveyID  = $Self->{ParamObject}->GetParam( Param => "SurveyID" );
         my $NewStatus = $Self->{ParamObject}->GetParam( Param => "NewStatus" );
+
+        my $Access                = 0;
+        my $GroupsForChangeStatus = $Self->{ConfigObject}->Get('Survey::Frontend::ChangeSurveyStatusGroups');
+        my %UserGroups            = $Self->{GroupObject}->GroupGroupMemberList(
+            UserID => $Self->{UserID},
+            Type   => 'rw',
+            Result => 'HASH',
+        );
+        %UserGroups = reverse %UserGroups;
+
+        # If config array is empty, group can change survey status. Otherwise, checking permissions.
+        if ( !IsArrayRefWithData($GroupsForChangeStatus) ) {
+            $Access = 1;
+        }
+        else {
+
+            GROUPS:
+            for my $Group ( @{$GroupsForChangeStatus} ) {
+                if ( $UserGroups{$Group} ) {
+                    $Access = 1;
+                    last GROUPS;
+                }
+            }
+        }
 
         # check if survey exists
         if (
@@ -137,6 +166,7 @@ sub Run {
                 Element   => 'Survey'
             ) ne
             'Yes'
+            || $Access == 0
             )
         {
 
