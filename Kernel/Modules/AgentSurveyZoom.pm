@@ -522,7 +522,7 @@ sub Run {
                     # calculate the percents
                     if ($RequestComplete) {
                         $Percent = 100 / $RequestComplete * $VoteCount;
-                        $Percent = sprintf( "%.0f", $Percent );
+                        $Percent = sprintf( "%.2f", $Percent );
                     }
                     my %Data;
                     $Data{Answer}        = $Row->{Answer};
@@ -540,7 +540,7 @@ sub Run {
                 # calculate the percents
                 if ($RequestComplete) {
                     $Percent = 100 / $RequestComplete * $AnswerNo;
-                    $Percent = sprintf( "%.0f", $Percent );
+                    $Percent = sprintf( "%.2f", $Percent );
                 }
                 my %Data;
                 $Data{Answer} = "answered";
