@@ -1,8 +1,5 @@
 # --
-# Kernel/Language/pt_BR_Survey.pm - translation file
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
-# --
-# $Id: pt_BR_Survey.pm,v 1.6 2012-11-20 19:11:46 mh Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

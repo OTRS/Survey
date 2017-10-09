@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Survey.pm - all survey funtions
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
-# --
-# $Id: Survey.pm,v 1.72.2.1 2012-11-22 14:34:09 jh Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +19,6 @@ use Kernel::System::Ticket;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.72.2.1 $) [1];
 
 =head1 NAME
 
@@ -1902,7 +1898,7 @@ sub RequestSend {
     for my $Data ( sort keys %Ticket ) {
         if ( defined $Ticket{$Data} ) {
             $Subject =~ s/<OTRS_TICKET_$Data>/$Ticket{$Data}/gi;
-            $Body    =~ s/<OTRS_TICKET_$Data>/$Ticket{$Data}/gi;
+            $Body =~ s/<OTRS_TICKET_$Data>/$Ticket{$Data}/gi;
 
             # filter for new rich text content
             $Body =~ s/&lt;OTRS_TICKET_$Data&gt;/$Ticket{$Data}/g;
@@ -1911,18 +1907,18 @@ sub RequestSend {
 
     # cleanup
     $Subject =~ s/<OTRS_TICKET_.+?>/-/gi;
-    $Body    =~ s/<OTRS_TICKET_.+?>/-/gi;
+    $Body =~ s/<OTRS_TICKET_.+?>/-/gi;
 
     # replace config options
     $Subject =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
-    $Body    =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
+    $Body =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
 
     # filter for new rich text content
     $Body =~ s{&lt;OTRS_CONFIG_(.+?)&gt;}{$Self->{ConfigObject}->Get($1)}egx;
 
     # cleanup
     $Subject =~ s/<OTRS_CONFIG_.+?>/-/gi;
-    $Body    =~ s/<OTRS_CONFIG_.+?>/-/gi;
+    $Body =~ s/<OTRS_CONFIG_.+?>/-/gi;
 
     # filter for new rich text content
     $Body =~ s/&lt;OTRS_CONFIG_.+?&gt;/-/gi;
@@ -1939,7 +1935,7 @@ sub RequestSend {
             next if !$CustomerUser{$Data};
 
             $Subject =~ s/<OTRS_CUSTOMER_DATA_$Data>/$CustomerUser{$Data}/gi;
-            $Body    =~ s/<OTRS_CUSTOMER_DATA_$Data>/$CustomerUser{$Data}/gi;
+            $Body =~ s/<OTRS_CUSTOMER_DATA_$Data>/$CustomerUser{$Data}/gi;
 
             # filter for new rich text content
             $Body =~ s/&lt;OTRS_CUSTOMER_DATA_$Data&gt;/$CustomerUser{$Data}/gi;
@@ -1948,14 +1944,14 @@ sub RequestSend {
 
     # cleanup all not needed <OTRS_CUSTOMER_DATA_ tags
     $Subject =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
-    $Body    =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
+    $Body =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
 
     # filter for new rich text content
     $Body =~ s/&lt;OTRS_CUSTOMER_DATA_.+?&gt;/-/gi;
 
     # replace key
     $Subject =~ s/<OTRS_PublicSurveyKey>/$PublicSurveyKey/gi;
-    $Body    =~ s/<OTRS_PublicSurveyKey>/$PublicSurveyKey/gi;
+    $Body =~ s/<OTRS_PublicSurveyKey>/$PublicSurveyKey/gi;
 
     # filter for new rich text content
     $Body =~ s/&lt;OTRS_PublicSurveyKey&gt;/$PublicSurveyKey/gi;
@@ -2012,8 +2008,7 @@ sub RequestSend {
 
     # Only if we haven't been called by cron
     if ( !$Param{TriggerSendRequests} ) {
-        my $AmountOfSurveysPer30Days
-            = $Self->{ConfigObject}->Get('Survey::AmountOfSurveysPer30Days');
+        my $AmountOfSurveysPer30Days = $Self->{ConfigObject}->Get('Survey::AmountOfSurveysPer30Days');
 
         # if we should just send a certain amount of surveys per 30 days & recipient
         if ($AmountOfSurveysPer30Days) {
@@ -2021,8 +2016,7 @@ sub RequestSend {
 
             # Find all surveys that were created in the last 30 days
             my $ThirtyDaysAgo = $Now - 30 * 86400;
-            $ThirtyDaysAgo
-                = $Self->{TimeObject}->SystemTime2TimeStamp( SystemTime => $ThirtyDaysAgo );
+            $ThirtyDaysAgo = $Self->{TimeObject}->SystemTime2TimeStamp( SystemTime => $ThirtyDaysAgo );
             my $LastSentTime = 0;
 
             $Self->{DBObject}->Prepare(
@@ -2410,7 +2404,10 @@ sub SurveyQueueSave {
     # check needed stuff
     for my $Argument (qw(SurveyID QueueIDs)) {
         if ( !$Param{$Argument} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Argument!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!"
+            );
             return;
         }
     }
@@ -2749,8 +2746,7 @@ sub SurveySearch {
         $Param{NotificationSubject} = "\%$Param{NotificationSubject}\%";
         $Param{NotificationSubject} =~ s/\*/%/g;
         $Param{NotificationSubject} =~ s/%%/%/g;
-        $Param{NotificationSubject}
-            = $Self->{DBObject}->Quote( $Param{NotificationSubject}, 'Like' );
+        $Param{NotificationSubject} = $Self->{DBObject}->Quote( $Param{NotificationSubject}, 'Like' );
         if ($Ext) {
             $Ext .= ' AND';
         }
@@ -2914,14 +2910,10 @@ sub GetRichTextDocumentComplete {
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).
+This software is part of the OTRS project (L<http://otrs.org/>).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
-
-=head1 VERSION
-
-$Revision: 1.72.2.1 $ $Date: 2012-11-22 14:34:09 $
 
 =cut

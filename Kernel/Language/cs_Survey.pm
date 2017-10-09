@@ -1,8 +1,5 @@
 # --
-# Kernel/Language/cs_Survey.pm - translation file
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
-# --
-# $Id: cs_Survey.pm,v 1.8 2012-11-20 19:11:37 mh Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

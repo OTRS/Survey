@@ -1,8 +1,5 @@
 # --
-# AgentSurveyZoom.dtl - provides HTML form for AgentSurvey
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
-# --
-# $Id: AgentSurveyZoom.dtl,v 1.21 2012-11-20 19:12:26 mh Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

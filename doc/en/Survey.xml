@@ -1,7 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
     "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-<!-- $Id: Survey.xml,v 1.2 2012-11-20 15:53:55 jh Exp $ -->
 
 <book lang='en'>
 
@@ -20,7 +19,7 @@
 
 <legalnotice>
     <para>$License</para>
-    <para>This work is copyrighted by $Vendor, Norsk-Data-Str. 1, 61352 Bad Homburg, Germany.</para>
+    <para>This work is copyrighted by $Vendor, Zimmersmühlenweg 11, 61440 Oberursel, Germany.</para>
     <para>Build Date: $DateStamp</para>
 </legalnotice>
 
@@ -542,23 +541,5 @@
     $ChangeLog
     </para>
 </chapter>
-
-<chapter>
-    <!-- *********** -->
-    <!-- 11. Contact -->
-    <!-- *********** -->
-    <title>Contacts</title>
-    <para>People who are involved in this implementation.</para>
-    <sect1>
-        <title>OTRS AG</title>
-        <para>
-            Accounting: xxxx xxxxx &lt;sales@otrs.com&gt;, Phone +49 (0)6172 681988 0
-        </para>
-        <para>
-            Technical: xxxxxxxxx xxxxxxxxx &lt;dev-support@otrs.com&gt;, Phone +49 (0)6172 681988 0
-        </para>
-    </sect1>
-</chapter>
-
 
 </book>

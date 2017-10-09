@@ -1,9 +1,6 @@
 #!/usr/bin/perl -w
 # --
-# bin/otrs.SurveyTriggerSendRequests.pl - trigger sending delayed survey requests
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
-# --
-# $Id: otrs.SurveyTriggerSendRequests.pl,v 1.3 2012-11-20 19:12:44 mh Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -12,12 +9,12 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
@@ -29,9 +26,6 @@ use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
 
 use Kernel::Config;
 use Kernel::System::SysConfig;
@@ -57,7 +51,7 @@ if (
     )
 {
     print STDERR "Usage: bin/$0 [-h] [-d] [-e]\n";
-    print STDERR "$0 <Revision $VERSION>\n";
+    print STDERR "$0 \n";
     print STDERR "Trigger sending delayed survey requests.\n";
     print STDERR "Usage: $0 -h (Display this help text)\n";
     print STDERR "Usage: $0 -d (Do a dry run, implies -v)\n";
@@ -72,7 +66,7 @@ if (
     print STDERR "4. Wait the necessary amount of hours you've configured\n";
     print STDERR "5. You can do a dry run to get a list of surveys that would be sent (-d)\n";
     print STDERR "6. If you're fine with it, activate var/cron/generic_agent_survey.dist\n";
-    print STDERR "Copyright (C) 2001-2012 OTRS AG, http://otrs.com/\n";
+    print STDERR "Copyright (C) 2001-2017 OTRS AG, http://otrs.com/\n";
     exit;
 }
 
@@ -137,8 +131,7 @@ for my $Line (@Rows) {
     }
 
     # Convert create_time to unixtime
-    my $CreateTime
-        = $CommonObject{TimeObject}->TimeStamp2SystemTime( String => $Line->{CreateTime} );
+    my $CreateTime = $CommonObject{TimeObject}->TimeStamp2SystemTime( String => $Line->{CreateTime} );
 
     # don't send for survey_requests that are younger than CreateTime + $SendINHoursAfterClose
     if ( $SendInHoursAfterClose * 3600 + $CreateTime > $Now ) {

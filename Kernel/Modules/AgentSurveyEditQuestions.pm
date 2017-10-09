@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AgentSurveyEditQuestions.pm - a survey module
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
-# --
-# $Id: AgentSurveyEditQuestions.pm,v 1.13 2012-11-21 12:02:09 jh Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::Survey;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -63,7 +57,10 @@ sub Run {
 
         # check if survey exists
         if (
-            $Self->{SurveyObject}->ElementExists( ElementID => $SurveyID, Element => 'Survey' ) ne
+            $Self->{SurveyObject}->ElementExists(
+                ElementID => $SurveyID,
+                Element   => 'Survey'
+            ) ne
             'Yes'
             )
         {
@@ -101,7 +98,10 @@ sub Run {
 
         # check if survey and question exists
         if (
-            $Self->{SurveyObject}->ElementExists( ElementID => $SurveyID, Element => 'Survey' ) ne
+            $Self->{SurveyObject}->ElementExists(
+                ElementID => $SurveyID,
+                Element   => 'Survey'
+            ) ne
             'Yes'
             || $Self->{SurveyObject}->ElementExists(
                 ElementID => $QuestionID,
@@ -130,7 +130,10 @@ sub Run {
 
         # check if survey and question exists
         if (
-            $Self->{SurveyObject}->ElementExists( ElementID => $SurveyID, Element => 'Survey' ) ne
+            $Self->{SurveyObject}->ElementExists(
+                ElementID => $SurveyID,
+                Element   => 'Survey'
+            ) ne
             'Yes'
             || $Self->{SurveyObject}->ElementExists(
                 ElementID => $QuestionID,
@@ -160,7 +163,10 @@ sub Run {
 
         # check if survey and question exists
         if (
-            $Self->{SurveyObject}->ElementExists( ElementID => $SurveyID, Element => 'Survey' ) ne
+            $Self->{SurveyObject}->ElementExists(
+                ElementID => $SurveyID,
+                Element   => 'Survey'
+            ) ne
             'Yes'
             || $Self->{SurveyObject}->ElementExists(
                 ElementID => $QuestionID,
@@ -189,7 +195,10 @@ sub Run {
 
         # check if survey and question exists
         if (
-            $Self->{SurveyObject}->ElementExists( ElementID => $SurveyID, Element => 'Survey' ) ne
+            $Self->{SurveyObject}->ElementExists(
+                ElementID => $SurveyID,
+                Element   => 'Survey'
+            ) ne
             'Yes'
             || $Self->{SurveyObject}->ElementExists(
                 ElementID => $QuestionID,
@@ -225,7 +234,10 @@ sub Run {
 
         # check if survey and question exists
         if (
-            $Self->{SurveyObject}->ElementExists( ElementID => $SurveyID, Element => 'Survey' ) ne
+            $Self->{SurveyObject}->ElementExists(
+                ElementID => $SurveyID,
+                Element   => 'Survey'
+            ) ne
             'Yes'
             || $Self->{SurveyObject}->ElementExists(
                 ElementID => $QuestionID,
@@ -272,7 +284,10 @@ sub Run {
 
         # check if survey and question exists
         if (
-            $Self->{SurveyObject}->ElementExists( ElementID => $SurveyID, Element => 'Survey' ) ne
+            $Self->{SurveyObject}->ElementExists(
+                ElementID => $SurveyID,
+                Element   => 'Survey'
+            ) ne
             'Yes'
             || $Self->{SurveyObject}->ElementExists(
                 ElementID => $QuestionID,
@@ -318,13 +333,19 @@ sub Run {
 
         # check if survey, question and answer exists
         if (
-            $Self->{SurveyObject}->ElementExists( ElementID => $SurveyID, Element => 'Survey' ) ne
+            $Self->{SurveyObject}->ElementExists(
+                ElementID => $SurveyID,
+                Element   => 'Survey'
+            ) ne
             'Yes'
             || $Self->{SurveyObject}->ElementExists(
                 ElementID => $QuestionID,
                 Element   => 'Question'
             ) ne 'Yes'
-            || $Self->{SurveyObject}->ElementExists( ElementID => $AnswerID, Element => 'Answer' )
+            || $Self->{SurveyObject}->ElementExists(
+                ElementID => $AnswerID,
+                Element   => 'Answer'
+            )
             ne 'Yes'
             )
         {
@@ -351,13 +372,19 @@ sub Run {
 
         # check if survey, question and answer exists
         if (
-            $Self->{SurveyObject}->ElementExists( ElementID => $SurveyID, Element => 'Survey' ) ne
+            $Self->{SurveyObject}->ElementExists(
+                ElementID => $SurveyID,
+                Element   => 'Survey'
+            ) ne
             'Yes'
             || $Self->{SurveyObject}->ElementExists(
                 ElementID => $QuestionID,
                 Element   => 'Question'
             ) ne 'Yes'
-            || $Self->{SurveyObject}->ElementExists( ElementID => $AnswerID, Element => 'Answer' )
+            || $Self->{SurveyObject}->ElementExists(
+                ElementID => $AnswerID,
+                Element   => 'Answer'
+            )
             ne 'Yes'
             )
         {
@@ -384,13 +411,19 @@ sub Run {
 
         # check if survey, question and answer exists
         if (
-            $Self->{SurveyObject}->ElementExists( ElementID => $SurveyID, Element => 'Survey' ) ne
+            $Self->{SurveyObject}->ElementExists(
+                ElementID => $SurveyID,
+                Element   => 'Survey'
+            ) ne
             'Yes'
             || $Self->{SurveyObject}->ElementExists(
                 ElementID => $QuestionID,
                 Element   => 'Question'
             ) ne 'Yes'
-            || $Self->{SurveyObject}->ElementExists( ElementID => $AnswerID, Element => 'Answer' )
+            || $Self->{SurveyObject}->ElementExists(
+                ElementID => $AnswerID,
+                Element   => 'Answer'
+            )
             ne 'Yes'
             )
         {
@@ -417,13 +450,19 @@ sub Run {
 
         # check if survey, question and answer exists
         if (
-            $Self->{SurveyObject}->ElementExists( ElementID => $SurveyID, Element => 'Survey' ) ne
+            $Self->{SurveyObject}->ElementExists(
+                ElementID => $SurveyID,
+                Element   => 'Survey'
+            ) ne
             'Yes'
             || $Self->{SurveyObject}->ElementExists(
                 ElementID => $QuestionID,
                 Element   => 'Question'
             ) ne 'Yes'
-            || $Self->{SurveyObject}->ElementExists( ElementID => $AnswerID, Element => 'Answer' )
+            || $Self->{SurveyObject}->ElementExists(
+                ElementID => $AnswerID,
+                Element   => 'Answer'
+            )
             ne 'Yes'
             )
         {
@@ -449,13 +488,19 @@ sub Run {
 
         # check if survey, question and answer exists
         if (
-            $Self->{SurveyObject}->ElementExists( ElementID => $SurveyID, Element => 'Survey' ) ne
+            $Self->{SurveyObject}->ElementExists(
+                ElementID => $SurveyID,
+                Element   => 'Survey'
+            ) ne
             'Yes'
             || $Self->{SurveyObject}->ElementExists(
                 ElementID => $QuestionID,
                 Element   => 'Question'
             ) ne 'Yes'
-            || $Self->{SurveyObject}->ElementExists( ElementID => $AnswerID, Element => 'Answer' )
+            || $Self->{SurveyObject}->ElementExists(
+                ElementID => $AnswerID,
+                Element   => 'Answer'
+            )
             ne 'Yes'
             )
         {
@@ -644,7 +689,9 @@ sub _MaskQuestionOverview {
         else {
             $Self->{LayoutObject}->Block(
                 Name => 'SurveyNoQuestionsSaved',
-                Data => { Columns => 5, }
+                Data => {
+                    Columns => 5,
+                    }
             );
         }
 
@@ -679,7 +726,7 @@ sub _MaskQuestionOverview {
 
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentSurveyEditQuestions',
-        Data => { SurveyID => $Param{SurveyID} },
+        Data         => { SurveyID => $Param{SurveyID} },
     );
 
     $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );

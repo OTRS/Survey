@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AgentSurvey.pm - a survey module
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
-# --
-# $Id: AgentSurvey.pm,v 1.54 2012-11-21 10:59:53 jh Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +13,6 @@ use warnings;
 
 use Kernel::System::Survey;
 use Kernel::System::HTMLUtils;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -62,7 +56,10 @@ sub Run {
 
         # check if survey exists
         if (
-            $Self->{SurveyObject}->ElementExists( ElementID => $SurveyID, Element => 'Survey' ) ne
+            $Self->{SurveyObject}->ElementExists(
+                ElementID => $SurveyID,
+                Element   => 'Survey'
+            ) ne
             'Yes'
             )
         {
@@ -108,16 +105,13 @@ sub Run {
         @{ $FormElements{Queues} } = $Self->{ParamObject}->GetArray( Param => "Queues" );
 
         if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
-            $FormElements{Introduction}
-                = ( length $FormElements{Introduction} )
+            $FormElements{Introduction} = ( length $FormElements{Introduction} )
                 ? "\$html/text\$ $FormElements{Introduction}"
                 : '';
-            $FormElements{NotificationBody}
-                = ( length $FormElements{NotificationBody} )
+            $FormElements{NotificationBody} = ( length $FormElements{NotificationBody} )
                 ? "\$html/text\$ $FormElements{NotificationBody}"
                 : '';
-            $FormElements{Description}
-                = ( length $FormElements{Description} )
+            $FormElements{Description} = ( length $FormElements{Description} )
                 ? "\$html/text\$ $FormElements{Description}"
                 : '';
         }
@@ -211,7 +205,10 @@ sub Run {
 
         # check if survey exists
         if (
-            $Self->{SurveyObject}->ElementExists( ElementID => $SurveyID, Element => 'Survey' ) ne
+            $Self->{SurveyObject}->ElementExists(
+                ElementID => $SurveyID,
+                Element   => 'Survey'
+            ) ne
             'Yes'
             )
         {
@@ -246,7 +243,10 @@ sub Run {
 
         # check if survey exists
         if (
-            $Self->{SurveyObject}->ElementExists( ElementID => $SurveyID, Element => 'Survey' ) ne
+            $Self->{SurveyObject}->ElementExists(
+                ElementID => $SurveyID,
+                Element   => 'Survey'
+            ) ne
             'Yes'
             )
         {
@@ -293,9 +293,15 @@ sub Run {
 
         # check if survey exists
         if (
-            $Self->{SurveyObject}->ElementExists( ElementID => $SurveyID, Element => 'Survey' ) ne
+            $Self->{SurveyObject}->ElementExists(
+                ElementID => $SurveyID,
+                Element   => 'Survey'
+            ) ne
             'Yes'
-            || $Self->{SurveyObject}->ElementExists( ElementID => $RequestID, Element => 'Request' )
+            || $Self->{SurveyObject}->ElementExists(
+                ElementID => $RequestID,
+                Element   => 'Request'
+            )
             ne 'Yes'
             )
         {
@@ -608,17 +614,23 @@ sub _SurveyAddMask {
 
     $Self->{LayoutObject}->Block(
         Name => "$Block" . 'Introduction',
-        Data => { Introduction => $SurveyElements{Introduction}, },
+        Data => {
+            Introduction => $SurveyElements{Introduction},
+        },
     );
 
     $Self->{LayoutObject}->Block(
         Name => "$Block" . 'NotificationBody',
-        Data => { NotificationBody => $SurveyElements{NotificationBody}, },
+        Data => {
+            NotificationBody => $SurveyElements{NotificationBody},
+        },
     );
 
     $Self->{LayoutObject}->Block(
         Name => "$Block" . 'InternalDescription',
-        Data => { Description => $SurveyElements{Description}, },
+        Data => {
+            Description => $SurveyElements{Description},
+        },
     );
 
     # generates generic errors for javascript

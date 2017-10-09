@@ -1,8 +1,5 @@
 # --
-# Survey.t - Survey tests
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
-# --
-# $Id: Survey.t,v 1.24 2012-11-21 08:33:25 jh Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -144,7 +141,7 @@ my @Tests = (
             HistoryType    => 'OwnerUpdate',
             HistoryComment => 'Some free text!',
             UserID         => 1,
-            NoAgentNotify => 1,    # if you don't want to send agent notifications
+            NoAgentNotify  => 1,                                     # if you don't want to send agent notifications
         },
         Result => [
             1,
@@ -177,7 +174,7 @@ my @Tests = (
             HistoryType    => 'OwnerUpdate',
             HistoryComment => 'Some free text!',
             UserID         => 1,
-            NoAgentNotify => 1,    # if you don't want to send agent notifications
+            NoAgentNotify  => 1,                                     # if you don't want to send agent notifications
         },
         Result => [
             0,
@@ -210,7 +207,7 @@ my @Tests = (
             HistoryType    => 'OwnerUpdate',
             HistoryComment => 'Some free text!',
             UserID         => 1,
-            NoAgentNotify => 1,    # if you don't want to send agent notifications
+            NoAgentNotify  => 1,                                   # if you don't want to send agent notifications
         },
         Result => [
             0,
@@ -244,7 +241,7 @@ my @Tests = (
             HistoryType    => 'OwnerUpdate',
             HistoryComment => 'Some free text!',
             UserID         => 1,
-            NoAgentNotify => 1,    # if you don't want to send agent notifications
+            NoAgentNotify  => 1,                                   # if you don't want to send agent notifications
         },
         Result => [
             1,
@@ -278,7 +275,7 @@ my @Tests = (
             HistoryType    => 'OwnerUpdate',
             HistoryComment => 'Some free text!',
             UserID         => 1,
-            NoAgentNotify => 1,    # if you don't want to send agent notifications
+            NoAgentNotify  => 1,                                   # if you don't want to send agent notifications
         },
         Result => [
             0,
@@ -310,7 +307,7 @@ my @Tests = (
             HistoryType    => 'OwnerUpdate',
             HistoryComment => 'Some free text!',
             UserID         => 1,
-            NoAgentNotify => 1,    # if you don't want to send agent notifications
+            NoAgentNotify  => 1,                                   # if you don't want to send agent notifications
         },
         Result => [
             0,
@@ -500,8 +497,7 @@ That\'s it.
 
     my $DocumentComplete;
     for my $TextType ( sort keys %Text ) {
-        $DocumentComplete
-            = $SurveyObject->GetRichTextDocumentComplete( Text => $Text{$TextType}->{Input} );
+        $DocumentComplete = $SurveyObject->GetRichTextDocumentComplete( Text => $Text{$TextType}->{Input} );
         $Self->Is(
             $Text{$TextType}->{Output},
             $DocumentComplete,
