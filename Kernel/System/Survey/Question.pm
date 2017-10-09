@@ -1,6 +1,5 @@
 # --
-# Kernel/System/Survey/Question.pm - survey question functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -360,7 +359,7 @@ sub QuestionUp {
             FROM survey_question
             WHERE id = ?
                 AND survey_id = ?',
-        Bind => [ \$Param{QuestionID}, \$Param{SurveyID}, ],
+        Bind  => [ \$Param{QuestionID}, \$Param{SurveyID}, ],
         Limit => 1,
     );
 
@@ -381,7 +380,7 @@ sub QuestionUp {
             FROM survey_question
             WHERE survey_id = ?
                 AND position = ?',
-        Bind => [ \$Param{SurveyID}, \$PositionUp ],
+        Bind  => [ \$Param{SurveyID}, \$PositionUp ],
         Limit => 1,
     );
 
@@ -444,7 +443,7 @@ sub QuestionDown {
             FROM survey_question
             WHERE id = ?
                 AND survey_id = ?',
-        Bind => [ \$Param{QuestionID}, \$Param{SurveyID}, ],
+        Bind  => [ \$Param{QuestionID}, \$Param{SurveyID}, ],
         Limit => 1,
     );
 
@@ -465,7 +464,7 @@ sub QuestionDown {
             FROM survey_question
             WHERE survey_id = ?
                 AND position = ?',
-        Bind => [ \$Param{SurveyID}, \$PositionDown, ],
+        Bind  => [ \$Param{SurveyID}, \$PositionDown, ],
         Limit => 1,
     );
 
@@ -543,7 +542,7 @@ sub QuestionCount {
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).
+This software is part of the OTRS project (L<http://otrs.org/>).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you

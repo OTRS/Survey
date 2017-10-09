@@ -1,6 +1,5 @@
 # --
-# Kernel/System/Survey/Answer.pm - survey answer functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -318,7 +317,7 @@ sub AnswerUp {
             FROM survey_answer
             WHERE id = ?
                 AND question_id = ?',
-        Bind => [ \$Param{AnswerID}, \$Param{QuestionID}, ],
+        Bind  => [ \$Param{AnswerID}, \$Param{QuestionID}, ],
         Limit => 1,
     );
 
@@ -338,7 +337,7 @@ sub AnswerUp {
             SELECT id
             FROM survey_answer
             WHERE question_id = ? AND position = ?',
-        Bind => [ \$Param{QuestionID}, \$PositionUp, ],
+        Bind  => [ \$Param{QuestionID}, \$PositionUp, ],
         Limit => 1,
     );
 
@@ -401,7 +400,7 @@ sub AnswerDown {
             FROM survey_answer
             WHERE id = ?
                 AND question_id = ?',
-        Bind => [ \$Param{AnswerID}, \$Param{QuestionID}, ],
+        Bind  => [ \$Param{AnswerID}, \$Param{QuestionID}, ],
         Limit => 1,
     );
 
@@ -422,7 +421,7 @@ sub AnswerDown {
             FROM survey_answer
             WHERE question_id = ?
                 AND position = ?',
-        Bind => [ \$Param{QuestionID}, \$PositionDown, ],
+        Bind  => [ \$Param{QuestionID}, \$PositionDown, ],
         Limit => 1,
     );
 
@@ -554,7 +553,7 @@ sub PublicAnswerSet {
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).
+This software is part of the OTRS project (L<http://otrs.org/>).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you

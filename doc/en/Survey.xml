@@ -18,7 +18,7 @@
     <legalnotice>
         <para>$License</para>
         <para>
-            This work is copyrighted by $Vendor, Norsk-Data-Str. 1, 61352 Bad Homburg, Germany.
+            This work is copyrighted by $Vendor, Zimmersmühlenweg 11, 61440 Oberursel, Germany.
         </para>
         <para>Build Date: $DateStamp</para>
     </legalnotice>
@@ -39,12 +39,6 @@
     </para>
     <para>
         Shows graphical statistics of completed Surveys.
-    </para>
-    <para>
-        If you have questions regarding this package, please contact your support team
-        <ulink url="mailto:support@otrs.com?subject=$Name">
-            &lt;support@otrs.com&gt;
-        </ulink> for more information.
     </para>
 </preface>
 
@@ -557,18 +551,4 @@ shell> bin/otrs.PackageManager.pl -a install -p /path/to/$Name-$Version.opm
 <!-- ************ -->
 <!-- 11. Contacts -->
 <!-- ************ -->
-<chapter>
-    <title>Contacts</title>
-    <para>People who are involved in this implementation.</para>
-    <section>
-        <title>OTRS AG</title>
-        <para>
-            Technical: Manuel Hecht
-            <ulink url="mailto:dev-support@otrs.com?subject=$Name">
-                &lt;dev-support@otrs.com&gt;
-            </ulink>, Phone +49 (0)6172 681988 0
-        </para>
-    </section>
-</chapter>
-
 </book>

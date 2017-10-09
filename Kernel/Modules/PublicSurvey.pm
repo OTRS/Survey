@@ -1,6 +1,5 @@
 # --
-# Kernel/Modules/PublicSurvey.pm - a survey module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -121,8 +120,7 @@ sub Run {
 
                     # check if rich text is enabled
                     if ( $Self->{LayoutObject}->{BrowserRichText} ) {
-                        $PublicSurveyVote4
-                            = ( length $PublicSurveyVote4 )
+                        $PublicSurveyVote4 = ( length $PublicSurveyVote4 )
                             ? "\$html/text\$ $PublicSurveyVote4"
                             : '';
                     }
@@ -182,8 +180,7 @@ sub Run {
                         );
                     }
                 }
-                $Self->{SurveyObject}
-                    ->PublicSurveyInvalidSet( PublicSurveyKey => $PublicSurveyKey );
+                $Self->{SurveyObject}->PublicSurveyInvalidSet( PublicSurveyKey => $PublicSurveyKey );
                 $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Survey' );
 
                 # print the main table.
@@ -245,9 +242,15 @@ sub Run {
 
         # check if survey exists
         if (
-            $Self->{SurveyObject}->ElementExists( ElementID => $SurveyID, Element => 'Survey' ) ne
+            $Self->{SurveyObject}->ElementExists(
+                ElementID => $SurveyID,
+                Element   => 'Survey'
+            ) ne
             'Yes'
-            || $Self->{SurveyObject}->ElementExists( ElementID => $RequestID, Element => 'Request' )
+            || $Self->{SurveyObject}->ElementExists(
+                ElementID => $RequestID,
+                Element   => 'Request'
+            )
             ne 'Yes'
             )
         {
@@ -472,16 +475,16 @@ sub Run {
                 #    },
                 # );
 
-             # Later on a Datastructure like the following would be possible:
-             # %Errors = (
-             #   1 => {
-             #        'Invalid text' => 'Your Text did not contain the Order number',
-             #   },
-             #   2 => {
-             #        'Answer required' => 1,
-             #    },
-             # );
-             # As soon as this is needed, the following $ErrorText stringbuilding has to be changed.
+                # Later on a Datastructure like the following would be possible:
+                # %Errors = (
+                #   1 => {
+                #        'Invalid text' => 'Your Text did not contain the Order number',
+                #   },
+                #   2 => {
+                #        'Answer required' => 1,
+                #    },
+                # );
+                # As soon as this is needed, the following $ErrorText stringbuilding has to be changed.
 
                 # The stringbuilding works at the moment this way:
                 # 1. Go through all keys of the %{ $Errors{ $Question->{QuestionID} } } hash

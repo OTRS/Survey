@@ -1,6 +1,5 @@
 # --
-# Kernel/System/Survey/Request.pm - survey request functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -312,8 +311,7 @@ sub RequestSend {
 
     # Only if we haven't been called by cron
     if ( !$Param{TriggerSendRequests} ) {
-        my $AmountOfSurveysPer30Days
-            = $Self->{ConfigObject}->Get('Survey::AmountOfSurveysPer30Days');
+        my $AmountOfSurveysPer30Days = $Self->{ConfigObject}->Get('Survey::AmountOfSurveysPer30Days');
 
         # if we should just send a certain amount of surveys per 30 days & recipient
         if ($AmountOfSurveysPer30Days) {
@@ -321,8 +319,7 @@ sub RequestSend {
 
             # Find all surveys that were created in the last 30 days
             my $ThirtyDaysAgo = $Now - 30 * 86400;
-            $ThirtyDaysAgo
-                = $Self->{TimeObject}->SystemTime2TimeStamp( SystemTime => $ThirtyDaysAgo );
+            $ThirtyDaysAgo = $Self->{TimeObject}->SystemTime2TimeStamp( SystemTime => $ThirtyDaysAgo );
             my $LastSentTime = 0;
 
             $Self->{DBObject}->Prepare(
@@ -542,7 +539,7 @@ sub RequestCount {
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).
+This software is part of the OTRS project (L<http://otrs.org/>).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you

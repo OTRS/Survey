@@ -1,6 +1,5 @@
 # --
-# Kernel/System/Survey.pm - all survey funtions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -198,7 +197,7 @@ sub SurveyAdd {
                 AND introduction = ?
                 AND description = ?
             ORDER BY id DESC',
-        Bind => [ \$Param{Title}, \$Param{Introduction}, \$Param{Description}, ],
+        Bind  => [ \$Param{Title}, \$Param{Introduction}, \$Param{Description}, ],
         Limit => 1,
     );
 
@@ -712,8 +711,7 @@ sub SurveySearch {
         $Param{NotificationSubject} = "\%$Param{NotificationSubject}\%";
         $Param{NotificationSubject} =~ s/\*/%/g;
         $Param{NotificationSubject} =~ s/%%/%/g;
-        $Param{NotificationSubject}
-            = $Self->{DBObject}->Quote( $Param{NotificationSubject}, 'Like' );
+        $Param{NotificationSubject} = $Self->{DBObject}->Quote( $Param{NotificationSubject}, 'Like' );
         if ($Ext) {
             $Ext .= ' AND';
         }
@@ -1161,7 +1159,7 @@ sub PublicSurveyGet {
             FROM survey
             WHERE id = ?
                 AND (status = ? OR status = ?)',
-        Bind => [ \$SurveyID, \$MasterStatus, \$ValidStatus, ],
+        Bind  => [ \$SurveyID, \$MasterStatus, \$ValidStatus, ],
         Limit => 1,
     );
 
@@ -1370,7 +1368,7 @@ sub _BuildSendConditionStrg {
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).
+This software is part of the OTRS project (L<http://otrs.org/>).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you

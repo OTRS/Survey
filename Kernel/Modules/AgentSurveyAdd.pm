@@ -1,6 +1,5 @@
 # --
-# Kernel/Modules/AgentSurveyAdd.pm - survey add module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -244,17 +243,23 @@ sub _SurveyAddMask {
 
     $Self->{LayoutObject}->Block(
         Name => 'Introduction',
-        Data => { Introduction => $SurveyElements{Introduction}, },
+        Data => {
+            Introduction => $SurveyElements{Introduction},
+        },
     );
 
     $Self->{LayoutObject}->Block(
         Name => 'NotificationBody',
-        Data => { NotificationBody => $SurveyElements{NotificationBody}, },
+        Data => {
+            NotificationBody => $SurveyElements{NotificationBody},
+        },
     );
 
     $Self->{LayoutObject}->Block(
         Name => 'InternalDescription',
-        Data => { Description => $SurveyElements{Description}, },
+        Data => {
+            Description => $SurveyElements{Description},
+        },
     );
 
     # generates generic errors for javascript
