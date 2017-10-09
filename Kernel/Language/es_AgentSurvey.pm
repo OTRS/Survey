@@ -1,8 +1,5 @@
 # --
-# Kernel/Language/es_AgentSurvey.pm - the es language for AgentSurvey
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
-# --
-# $Id: es_AgentSurvey.pm,v 1.1 2010-08-18 09:17:45 mh Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Language::es_AgentSurvey;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
 
 sub Data {
     my $Self = shift;

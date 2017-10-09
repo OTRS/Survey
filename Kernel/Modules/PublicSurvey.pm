@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/PublicSurvey.pm - a survey module
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
-# --
-# $Id: PublicSurvey.pm,v 1.19 2009-04-02 16:22:19 mh Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +12,6 @@ use strict;
 use warnings;
 
 use Kernel::System::Survey;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

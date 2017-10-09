@@ -1,9 +1,6 @@
 # --
-# Kernel/Language/da_PublicSurvey.pm - provides da (Danish) language translation
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
-# --
-# $Id: da_PublicSurvey.pm,v 1.1 2010-07-12 12:28:53 ub Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,9 +11,6 @@ package Kernel::Language::da_PublicSurvey;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
 
 sub Data {
     my $Self = shift;

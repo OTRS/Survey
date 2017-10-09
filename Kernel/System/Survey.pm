@@ -1,8 +1,5 @@
 # --
-# Kernel/System/Survey.pm - all survey funtions
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
-# --
-# $Id: Survey.pm,v 1.50.2.1 2010-12-28 18:23:04 dz Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +19,6 @@ use Kernel::System::Ticket;
 use Mail::Address;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.50.2.1 $) [1];
 
 =head1 NAME
 
@@ -1830,21 +1826,21 @@ sub RequestSend {
     for my $Data ( keys %Ticket ) {
         if ( defined $Ticket{$Data} ) {
             $Subject =~ s/<OTRS_TICKET_$Data>/$Ticket{$Data}/gi;
-            $Body    =~ s/<OTRS_TICKET_$Data>/$Ticket{$Data}/gi;
+            $Body =~ s/<OTRS_TICKET_$Data>/$Ticket{$Data}/gi;
         }
     }
 
     # cleanup
     $Subject =~ s/<OTRS_TICKET_.+?>/-/gi;
-    $Body    =~ s/<OTRS_TICKET_.+?>/-/gi;
+    $Body =~ s/<OTRS_TICKET_.+?>/-/gi;
 
     # replace config options
     $Subject =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
-    $Body    =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
+    $Body =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
 
     # cleanup
     $Subject =~ s/<OTRS_CONFIG_.+?>/-/gi;
-    $Body    =~ s/<OTRS_CONFIG_.+?>/-/gi;
+    $Body =~ s/<OTRS_CONFIG_.+?>/-/gi;
 
     # get customer data and replace it with <OTRS_CUSTOMER_DATA_...
     my %CustomerUser;
@@ -1858,17 +1854,17 @@ sub RequestSend {
             next if !$CustomerUser{$Data};
 
             $Subject =~ s/<OTRS_CUSTOMER_DATA_$Data>/$CustomerUser{$Data}/gi;
-            $Body    =~ s/<OTRS_CUSTOMER_DATA_$Data>/$CustomerUser{$Data}/gi;
+            $Body =~ s/<OTRS_CUSTOMER_DATA_$Data>/$CustomerUser{$Data}/gi;
         }
     }
 
     # cleanup all not needed <OTRS_CUSTOMER_DATA_ tags
     $Subject =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
-    $Body    =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
+    $Body =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
 
     # replace key
     $Subject =~ s/<OTRS_PublicSurveyKey>/$PublicSurveyKey/gi;
-    $Body    =~ s/<OTRS_PublicSurveyKey>/$PublicSurveyKey/gi;
+    $Body =~ s/<OTRS_PublicSurveyKey>/$PublicSurveyKey/gi;
 
     my $ToString = $CustomerUser{UserEmail};
 
@@ -2161,7 +2157,10 @@ sub SurveyQueueSave {
     # check needed stuff
     for my $Argument (qw(SurveyID QueueIDs)) {
         if ( !$Param{$Argument} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Argument!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!"
+            );
             return;
         }
     }
@@ -2237,14 +2236,10 @@ sub SurveyQueueGet {
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).
+This software is part of the OTRS project (L<http://otrs.org/>).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
-
-=head1 VERSION
-
-$Revision: 1.50.2.1 $ $Date: 2010-12-28 18:23:04 $
 
 =cut

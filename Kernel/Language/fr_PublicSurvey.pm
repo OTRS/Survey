@@ -1,8 +1,5 @@
 # --
-# Kernel/Language/fr_PublicSurvey.pm - the fr language for PublicSurvey
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
-# --
-# $Id: fr_PublicSurvey.pm,v 1.1 2009-11-20 13:40:52 mh Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Language::fr_PublicSurvey;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
 
 sub Data {
     my $Self = shift;

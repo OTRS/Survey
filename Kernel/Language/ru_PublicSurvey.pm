@@ -1,8 +1,5 @@
 # --
-# Kernel/Language/ru_PublicSurvey.pm - the ru language for PublicSurvey
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
-# --
-# $Id: ru_PublicSurvey.pm,v 1.1 2010-02-12 10:42:15 mh Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Language::ru_PublicSurvey;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
 
 sub Data {
     my $Self = shift;

@@ -1,8 +1,6 @@
 ﻿# --
 # Kernel/Language/nl_AgentSurvey.pm - the nl language for AgentSurvey
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
-# --
-# $Id: nl_AgentSurvey.pm,v 1.3 2010-03-02 07:51:46 mb Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +11,6 @@ package Kernel::Language::nl_AgentSurvey;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
 
 sub Data {
     my $Self = shift;
