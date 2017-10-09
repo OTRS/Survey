@@ -1,8 +1,5 @@
 # --
-# Kernel/Language/da_Survey.pm - translation file
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
-# --
-# $Id: da_Survey.pm,v 1.3.2.1 2012-04-27 10:03:15 jp Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +9,7 @@
 package Kernel::Language::da_Survey;
 
 use strict;
+use warnings;
 
 sub Data {
     my $Self = shift;

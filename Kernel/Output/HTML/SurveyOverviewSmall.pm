@@ -1,8 +1,5 @@
 # --
-# Kernel/Output/HTML/SurveyOverviewSmall.pm.pm
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
-# --
-# $Id: SurveyOverviewSmall.pm,v 1.1 2011-01-07 13:17:00 cr Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,9 +10,6 @@ package Kernel::Output::HTML::SurveyOverviewSmall;
 
 use strict;
 use warnings;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

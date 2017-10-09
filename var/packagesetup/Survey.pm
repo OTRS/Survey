@@ -1,8 +1,5 @@
 # --
-# Survey.pm - code to excecute during package installation
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
-# --
-# $Id: Survey.pm,v 1.1.2.3 2012-11-20 12:52:10 jh Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +15,6 @@ use Kernel::Config;
 use Kernel::System::SysConfig;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1.2.3 $) [1];
 
 =head1 NAME
 
@@ -244,9 +240,5 @@ the enclosed file COPYING for license information (AGPL). If you
 did not receive this file, see L<http://www.gnu.org/licenses/agpl.txt>.
 
 =cut
-
-=head1 VERSION
-
-$Revision: 1.1.2.3 $ $Date: 2012-11-20 12:52:10 $
 
 =cut

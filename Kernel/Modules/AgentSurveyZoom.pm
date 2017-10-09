@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/AgentSurveyZoom.pm - a survey module
-# Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
-# --
-# $Id: AgentSurveyZoom.pm,v 1.9 2011-04-13 10:45:19 mb Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +13,6 @@ use warnings;
 
 use Kernel::System::Survey;
 use Kernel::System::HTMLUtils;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -75,7 +69,10 @@ sub Run {
 
         # check if survey exists
         if (
-            $Self->{SurveyObject}->ElementExists( ElementID => $SurveyID, Element => 'Survey' ) ne
+            $Self->{SurveyObject}->ElementExists(
+                ElementID => $SurveyID,
+                Element   => 'Survey'
+            ) ne
             'Yes'
             )
         {
@@ -103,8 +100,7 @@ sub Run {
         }
 
         # convert text area fields to ascii
-        $Survey{$SurveyField}
-            = $Self->{HTMLUtilsObject}->ToAscii( String => $Survey{$SurveyField} );
+        $Survey{$SurveyField} = $Self->{HTMLUtilsObject}->ToAscii( String => $Survey{$SurveyField} );
 
         $Survey{$SurveyField} = $Self->{HTMLUtilsObject}->DocumentComplete(
             String  => $Survey{$SurveyField},
@@ -129,7 +125,10 @@ sub Run {
     # check if survey exists
     if (
         !$SurveyID ||
-        $Self->{SurveyObject}->ElementExists( ElementID => $SurveyID, Element => 'Survey' ) ne
+        $Self->{SurveyObject}->ElementExists(
+            ElementID => $SurveyID,
+            Element   => 'Survey'
+        ) ne
         'Yes'
         )
     {
@@ -247,7 +246,7 @@ sub Run {
 
     # display stats if status Master, Valid or Invalid
     if (
-        $Survey{Status}    eq 'Master'
+        $Survey{Status} eq 'Master'
         || $Survey{Status} eq 'Valid'
         || $Survey{Status} eq 'Invalid'
         )
@@ -270,7 +269,7 @@ sub Run {
 
             # generate the answers of the question
             if (
-                $Question->{Type}    eq 'YesNo'
+                $Question->{Type} eq 'YesNo'
                 || $Question->{Type} eq 'Radio'
                 || $Question->{Type} eq 'Checkbox'
                 )

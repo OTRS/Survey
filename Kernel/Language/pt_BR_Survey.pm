@@ -1,8 +1,5 @@
 # --
-# Kernel/Language/pt_BR_Survey.pm - translation file for Brazilian Portuguese
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
-# --
-# $Id: pt_BR_Survey.pm,v 1.1.2.2 2012-02-15 21:01:11 mb Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -12,6 +9,7 @@
 package Kernel::Language::pt_BR_Survey;
 
 use strict;
+use warnings;
 
 sub Data {
     my $Self = shift;

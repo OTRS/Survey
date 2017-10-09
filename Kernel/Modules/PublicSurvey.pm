@@ -1,8 +1,5 @@
 # --
-# Kernel/Modules/PublicSurvey.pm - a survey module
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
-# --
-# $Id: PublicSurvey.pm,v 1.25.2.3 2012-11-21 14:54:33 jh Exp $
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +13,6 @@ use warnings;
 
 use Kernel::System::Survey;
 use Kernel::System::HTMLUtils;
-
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -126,8 +120,7 @@ sub Run {
 
                     # check if rich text is enabled
                     if ( $Self->{LayoutObject}->{BrowserRichText} ) {
-                        $PublicSurveyVote4
-                            = ( length $PublicSurveyVote4 )
+                        $PublicSurveyVote4 = ( length $PublicSurveyVote4 )
                             ? "\$html/text\$ $PublicSurveyVote4"
                             : '';
                     }
@@ -187,8 +180,7 @@ sub Run {
                         );
                     }
                 }
-                $Self->{SurveyObject}
-                    ->PublicSurveyInvalidSet( PublicSurveyKey => $PublicSurveyKey );
+                $Self->{SurveyObject}->PublicSurveyInvalidSet( PublicSurveyKey => $PublicSurveyKey );
                 $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Survey' );
 
                 # print the main table.
@@ -250,9 +242,15 @@ sub Run {
 
         # check if survey exists
         if (
-            $Self->{SurveyObject}->ElementExists( ElementID => $SurveyID, Element => 'Survey' ) ne
+            $Self->{SurveyObject}->ElementExists(
+                ElementID => $SurveyID,
+                Element   => 'Survey'
+            ) ne
             'Yes'
-            || $Self->{SurveyObject}->ElementExists( ElementID => $RequestID, Element => 'Request' )
+            || $Self->{SurveyObject}->ElementExists(
+                ElementID => $RequestID,
+                Element   => 'Request'
+            )
             ne 'Yes'
             )
         {
@@ -431,8 +429,7 @@ sub Run {
         );
 
         if ($HTMLContent) {
-            $Survey{Introduction}
-                = $Self->{HTMLUtilsObject}->ToAscii( String => $Survey{Introduction} );
+            $Survey{Introduction} = $Self->{HTMLUtilsObject}->ToAscii( String => $Survey{Introduction} );
         }
         $Self->{LayoutObject}->Block(
             Name => 'PublicSurvey',
@@ -480,16 +477,16 @@ sub Run {
                 #    },
                 # );
 
-             # Later on a Datastructure like the following would be possible:
-             # %Errors = (
-             #   1 => {
-             #        'Invalid text' => 'Your Text did not contain the Order number',
-             #   },
-             #   2 => {
-             #        'Answer required' => 1,
-             #    },
-             # );
-             # As soon as this is needed, the following $ErrorText stringbuilding has to be changed.
+                # Later on a Datastructure like the following would be possible:
+                # %Errors = (
+                #   1 => {
+                #        'Invalid text' => 'Your Text did not contain the Order number',
+                #   },
+                #   2 => {
+                #        'Answer required' => 1,
+                #    },
+                # );
+                # As soon as this is needed, the following $ErrorText stringbuilding has to be changed.
 
                 # The stringbuilding works at the moment this way:
                 # 1. Go through all keys of the %{ $Errors{ $Question->{QuestionID} } } hash
