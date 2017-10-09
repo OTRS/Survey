@@ -1,6 +1,5 @@
 # --
-# Kernel/System/Survey.pm - all survey funtions
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -2057,8 +2056,7 @@ sub RequestSend {
 
     # Only if we haven't been called by cron
     if ( !$Param{TriggerSendRequests} ) {
-        my $AmountOfSurveysPer30Days
-            = $Self->{ConfigObject}->Get('Survey::AmountOfSurveysPer30Days');
+        my $AmountOfSurveysPer30Days = $Self->{ConfigObject}->Get('Survey::AmountOfSurveysPer30Days');
 
         # if we should just send a certain amount of surveys per 30 days & recipient
         if ($AmountOfSurveysPer30Days) {
@@ -2066,8 +2064,7 @@ sub RequestSend {
 
             # Find all surveys that were created in the last 30 days
             my $ThirtyDaysAgo = $Now - 30 * 86400;
-            $ThirtyDaysAgo
-                = $Self->{TimeObject}->SystemTime2TimeStamp( SystemTime => $ThirtyDaysAgo );
+            $ThirtyDaysAgo = $Self->{TimeObject}->SystemTime2TimeStamp( SystemTime => $ThirtyDaysAgo );
             my $LastSentTime = 0;
 
             $Self->{DBObject}->Prepare(
@@ -2455,7 +2452,10 @@ sub SurveyQueueSave {
     # check needed stuff
     for my $Argument (qw(SurveyID QueueIDs)) {
         if ( !$Param{$Argument} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Argument!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!"
+            );
             return;
         }
     }
@@ -2794,8 +2794,7 @@ sub SurveySearch {
         $Param{NotificationSubject} = "\%$Param{NotificationSubject}\%";
         $Param{NotificationSubject} =~ s/\*/%/g;
         $Param{NotificationSubject} =~ s/%%/%/g;
-        $Param{NotificationSubject}
-            = $Self->{DBObject}->Quote( $Param{NotificationSubject}, 'Like' );
+        $Param{NotificationSubject} = $Self->{DBObject}->Quote( $Param{NotificationSubject}, 'Like' );
         if ($Ext) {
             $Ext .= ' AND';
         }
@@ -2994,7 +2993,7 @@ sub _BuildSendConditionStrg {
 
 =head1 TERMS AND CONDITIONS
 
-This software is part of the OTRS project (http://otrs.org/).
+This software is part of the OTRS project (L<http://otrs.org/>).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (AGPL). If you

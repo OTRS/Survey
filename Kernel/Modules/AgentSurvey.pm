@@ -1,6 +1,5 @@
 # --
-# Kernel/Modules/AgentSurvey.pm - a survey module
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -61,7 +60,10 @@ sub Run {
 
         # check if survey exists
         if (
-            $Self->{SurveyObject}->ElementExists( ElementID => $SurveyID, Element => 'Survey' ) ne
+            $Self->{SurveyObject}->ElementExists(
+                ElementID => $SurveyID,
+                Element   => 'Survey'
+            ) ne
             'Yes'
             )
         {
@@ -110,16 +112,13 @@ sub Run {
         }
 
         if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
-            $FormElements{Introduction}
-                = ( length $FormElements{Introduction} )
+            $FormElements{Introduction} = ( length $FormElements{Introduction} )
                 ? "\$html/text\$ $FormElements{Introduction}"
                 : '';
-            $FormElements{NotificationBody}
-                = ( length $FormElements{NotificationBody} )
+            $FormElements{NotificationBody} = ( length $FormElements{NotificationBody} )
                 ? "\$html/text\$ $FormElements{NotificationBody}"
                 : '';
-            $FormElements{Description}
-                = ( length $FormElements{Description} )
+            $FormElements{Description} = ( length $FormElements{Description} )
                 ? "\$html/text\$ $FormElements{Description}"
                 : '';
         }
@@ -216,7 +215,10 @@ sub Run {
 
         # check if survey exists
         if (
-            $Self->{SurveyObject}->ElementExists( ElementID => $SurveyID, Element => 'Survey' ) ne
+            $Self->{SurveyObject}->ElementExists(
+                ElementID => $SurveyID,
+                Element   => 'Survey'
+            ) ne
             'Yes'
             )
         {
@@ -251,7 +253,10 @@ sub Run {
 
         # check if survey exists
         if (
-            $Self->{SurveyObject}->ElementExists( ElementID => $SurveyID, Element => 'Survey' ) ne
+            $Self->{SurveyObject}->ElementExists(
+                ElementID => $SurveyID,
+                Element   => 'Survey'
+            ) ne
             'Yes'
             )
         {
@@ -298,9 +303,15 @@ sub Run {
 
         # check if survey exists
         if (
-            $Self->{SurveyObject}->ElementExists( ElementID => $SurveyID, Element => 'Survey' ) ne
+            $Self->{SurveyObject}->ElementExists(
+                ElementID => $SurveyID,
+                Element   => 'Survey'
+            ) ne
             'Yes'
-            || $Self->{SurveyObject}->ElementExists( ElementID => $RequestID, Element => 'Request' )
+            || $Self->{SurveyObject}->ElementExists(
+                ElementID => $RequestID,
+                Element   => 'Request'
+            )
             ne 'Yes'
             )
         {
@@ -674,17 +685,23 @@ sub _SurveyAddMask {
 
     $Self->{LayoutObject}->Block(
         Name => "$Block" . 'Introduction',
-        Data => { Introduction => $SurveyElements{Introduction}, },
+        Data => {
+            Introduction => $SurveyElements{Introduction},
+        },
     );
 
     $Self->{LayoutObject}->Block(
         Name => "$Block" . 'NotificationBody',
-        Data => { NotificationBody => $SurveyElements{NotificationBody}, },
+        Data => {
+            NotificationBody => $SurveyElements{NotificationBody},
+        },
     );
 
     $Self->{LayoutObject}->Block(
         Name => "$Block" . 'InternalDescription',
-        Data => { Description => $SurveyElements{Description}, },
+        Data => {
+            Description => $SurveyElements{Description},
+        },
     );
 
     # generates generic errors for javascript

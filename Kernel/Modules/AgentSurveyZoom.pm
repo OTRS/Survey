@@ -1,6 +1,5 @@
 # --
-# Kernel/Modules/AgentSurveyZoom.pm - a survey module
-# Copyright (C) 2001-2013 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2017 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -75,7 +74,10 @@ sub Run {
 
         # check if survey exists
         if (
-            $Self->{SurveyObject}->ElementExists( ElementID => $SurveyID, Element => 'Survey' ) ne
+            $Self->{SurveyObject}->ElementExists(
+                ElementID => $SurveyID,
+                Element   => 'Survey'
+            ) ne
             'Yes'
             )
         {
@@ -103,8 +105,7 @@ sub Run {
         }
 
         # convert text area fields to ascii
-        $Survey{$SurveyField}
-            = $Self->{HTMLUtilsObject}->ToAscii( String => $Survey{$SurveyField} );
+        $Survey{$SurveyField} = $Self->{HTMLUtilsObject}->ToAscii( String => $Survey{$SurveyField} );
 
         $Survey{$SurveyField} = $Self->{HTMLUtilsObject}->DocumentComplete(
             String  => $Survey{$SurveyField},
@@ -129,7 +130,10 @@ sub Run {
     # check if survey exists
     if (
         !$SurveyID ||
-        $Self->{SurveyObject}->ElementExists( ElementID => $SurveyID, Element => 'Survey' ) ne
+        $Self->{SurveyObject}->ElementExists(
+            ElementID => $SurveyID,
+            Element   => 'Survey'
+        ) ne
         'Yes'
         )
     {
@@ -223,8 +227,7 @@ sub Run {
 
         # get selected ticket types
         my %TicketTypes = $Self->{TypeObject}->TypeList();
-        my @TicketTypeList
-            = map { $TicketTypes{$_} ? $TicketTypes{$_} : () } @{ $Survey{TicketTypeIDs} };
+        my @TicketTypeList = map { $TicketTypes{$_} ? $TicketTypes{$_} : () } @{ $Survey{TicketTypeIDs} };
         @TicketTypeList = sort { lc $a cmp lc $b } @TicketTypeList;
         my $TicketTypeListString = join q{, }, @TicketTypeList;
 
