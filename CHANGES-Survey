@@ -8,8 +8,8 @@
 # --
 4.0.2 - 2015-??-??
  - 2017-07-20 Fixed bug#10991 - Survey percentage won't add 100%.
- - 2017-07-12 Fiexd bug#9304 - Rendering of survey results is broken.
- - 2017-07-12 Fixed bug#[11739](https://bugs.otrs.org/show_bug.cgi?id=11739) - If a user can see AgentSurveyZoom of a survey, the user can always change status of the survey.
+ - 2017-07-12 Fixed bug#9304 - Rendering of survey results is broken.
+ - 2017-07-12 Fixed bug#11739 - If a user can see AgentSurveyZoom of a survey, the user can always change status of the survey.
  - 2016-07-22 Fixed bug#12184 - Survey Blacklist not working as expected.
  - 2015-10-06 Added French language, thanks to the translation team.
  - 2015-10-06 Added Galician language, thanks to the translation team.
