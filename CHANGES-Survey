@@ -6,7 +6,9 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-4.0.2 - 2015-??-??
+4.0.2 - 20??-??-??
+
+4.0.2 - 2017-10-17
  - 2017-07-20 Fixed bug#10991 - Survey percentage won't add 100%.
  - 2017-07-12 Fixed bug#9304 - Rendering of survey results is broken.
  - 2017-07-12 Fixed bug#11739 - If a user can see AgentSurveyZoom of a survey, the user can always change status of the survey.
@@ -16,6 +18,7 @@
  - 2015-10-06 Added Hungarian language, thanks to the translation team.
  - 2015-10-06 Added Vietnamese language, thanks to the translation team.
  - 2015-10-06 Updated translations, thanks to all translators
+
 4.0.1 - 2014-11-25
  - 2014-11-21 Added code to migrate DTL code in SysConfig settings to TT during package update.
  - 2014-11-20 Added Serbian Cyrillic language
