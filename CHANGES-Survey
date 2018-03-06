@@ -6,7 +6,10 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-4.0.3 - 20??-??-??
+4.0.4 - 20??-??-??
+
+4.0.3 - 2018-03-13
+ - 2018-03-06 Code cleanup.
 
 4.0.2 - 2017-10-17
  - 2017-07-20 Fixed bug#10991 - Survey percentage won't add 100%.
