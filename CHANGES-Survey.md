@@ -1,4 +1,7 @@
-#5.0.6 20??-??-??
+#5.0.7 20??-??-??
+
+#5.0.6 2018-03-13
+ - 2018-03-06 Code cleanup.
 
 #5.0.5 2017-10-17
  - 2017-09-06 Fixed bug#[12569](https://bugs.otrs.org/show_bug.cgi?id=12569) - Missing explanation users (with visual impairments) in the 'Preferences' page.
