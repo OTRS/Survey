@@ -579,8 +579,8 @@ END
                     Data => {
                         %{$Question},
                         %Selected,
-                        ErrorText => $ErrorText || '',
-                        Class => $Class,
+                        ErrorText    => $ErrorText || '',
+                        Class        => $Class,
                         RequiredText => $RequiredText,
                     },
                 );
@@ -590,8 +590,8 @@ END
                     Name => 'PublicAnswerRadio',
                     Data => {
                         %{$Question},
-                        ErrorText => $ErrorText || '',
-                        Class => $Class,
+                        ErrorText    => $ErrorText || '',
+                        Class        => $Class,
                         RequiredText => $RequiredText,
                     },
                 );
@@ -622,8 +622,8 @@ END
                     Name => 'PublicAnswerCheckbox',
                     Data => {
                         %{$Question},
-                        ErrorText => $ErrorText || '',
-                        Class => $Class,
+                        ErrorText    => $ErrorText || '',
+                        Class        => $Class,
                         RequiredText => $RequiredText,
                     },
                 );
@@ -658,8 +658,8 @@ END
                     Name => 'PublicAnswerTextarea',
                     Data => {
                         %{$Question},
-                        ErrorText => $ErrorText || '',
-                        Class => $Class,
+                        ErrorText    => $ErrorText || '',
+                        Class        => $Class,
                         RequiredText => $RequiredText,
                         Value        => $Value,
                     },
