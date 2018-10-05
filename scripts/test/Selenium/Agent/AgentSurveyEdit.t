@@ -13,23 +13,21 @@ use utf8;
 
 use vars (qw($Self));
 
-# get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # do not check RichText
+        # Do not check RichText.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Frontend::RichText',
             Value => 0,
         );
 
-        # create test survey
+        # Create test survey.
         my $SurveyTitle         = 'Survey ' . $Helper->GetRandomID();
         my $Introduction        = 'Survey Introduction';
         my $Description         = 'Survey Description';
@@ -52,7 +50,7 @@ $Selenium->RunTest(
             "Survey ID $SurveyID is created",
         );
 
-        # create test user and login
+        # Create test user and login.
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users' ],
         ) || die "Did not get test user";
@@ -63,23 +61,21 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
-        # navigate to AgentSurveyZoom of created test survey
+        # Navigate to AgentSurveyZoom of created test survey.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentSurveyZoom;SurveyID=$SurveyID");
 
-        # click on 'Edit General Info' and switch screen
+        # Click on 'Edit General Info' and switch screen.
         $Selenium->find_element( "#Menu010-EditGeneralInfo", 'css' )->VerifiedClick();
 
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # wait until page has loaded, if necessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Title").length' );
+        # Wait until page has loaded, if necessary.
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Title").length;' );
 
-        # get test params
         my @Test = (
             {
                 ID     => 'Title',
@@ -113,7 +109,7 @@ $Selenium->RunTest(
             },
         );
 
-        # check test survey values and edit them
+        # Check test survey values and edit them.
         for my $SurveyStored (@Test) {
 
             $Self->Is(
@@ -122,27 +118,30 @@ $Selenium->RunTest(
                 "#$SurveyStored->{ID} stored value",
             );
 
-            # edit value
+            # Edit value.
             $Selenium->find_element( "#$SurveyStored->{ID}", 'css' )->send_keys(' edited');
         }
 
-        # submit updates and switch back window
+        # Submit updates and switch back window.
         $Selenium->find_element("//button[\@value='Update'][\@type='submit']")->click();
 
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
-        # click on 'Edit General Info' again and switch window
-        $Selenium->find_element( "#Menu010-EditGeneralInfo", 'css' )->VerifiedClick();
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Menu010-EditGeneralInfo").length;' );
+        sleep 2;
+
+        # Click on 'Edit General Info' again and switch window.
+        $Selenium->find_element( "#Menu010-EditGeneralInfo", 'css' )->click();
 
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # wait until page has loaded, if necessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Title").length' );
+        # Wait until page has loaded, if necessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Title").length;' );
 
-        # check edited values
+        # Check edited values
         for my $SurveryEdited (@Test) {
 
             $Self->Is(
@@ -152,10 +151,9 @@ $Selenium->RunTest(
             );
         }
 
-        # get DB object
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-        # clean-up test created survey data
+        # Clean-up test created survey data.
         my $Success = $DBObject->Do(
             SQL  => "DELETE FROM survey_queue WHERE survey_id = ?",
             Bind => [ \$SurveyID ],
@@ -165,7 +163,7 @@ $Selenium->RunTest(
             "Survey-Queue for $SurveyTitle is deleted",
         );
 
-        # delete test created survey
+        # Delete test created survey.
         $Success = $DBObject->Do(
             SQL  => "DELETE FROM survey WHERE id = ?",
             Bind => [ \$SurveyID ],
