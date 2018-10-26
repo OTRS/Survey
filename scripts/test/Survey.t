@@ -822,11 +822,18 @@ for my $Test (@SendConditionTests) {
         );
     }
     else {
-
-        $Self->False(
-            ${$HeaderRef},
-            "$Test->{Name} RequestSend() - no survey got sent",
-        );
+        if ( $HeaderRef eq 'Queue' || $HeaderRef eq 'Service' || $HeaderRef eq 'Type' ) {
+            $Self->True(
+                $HeaderRef,
+                "$Test->{Name} RequestSend() - no survey got sent",
+            );
+        }
+        else {
+            $Self->False(
+                ${$HeaderRef},,
+                "$Test->{Name} RequestSend() - no survey got sent",
+            );
+        }
     }
 
     my $Delete = $TicketObject->TicketDelete(

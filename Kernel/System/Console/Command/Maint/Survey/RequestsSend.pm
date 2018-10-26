@@ -52,7 +52,7 @@ sub Run {
     $Self->Print("<yellow>Processing pending survey requests...</yellow>\n\n");
 
     my $SendInHoursAfterClose = $Kernel::OM->Get('Kernel::Config')->Get('Survey::SendInHoursAfterClose');
-    if ( !$SendInHoursAfterClose ) {
+    if ( !defined $SendInHoursAfterClose ) {
         $Self->Print("No hours configured in Survey::SendInHoursAfterClose.\n");
 
         $Self->Print("<green>Done.</green>\n");
@@ -67,11 +67,12 @@ sub Run {
 
     # find survey_requests that haven't been sent yet
     my $Success = $DBObject->Prepare(
-        SQL => '
-            SELECT id, ticket_id, create_time, public_survey_key
-            FROM survey_request
-            WHERE send_time IS NULL
-            ORDER BY create_time DESC',
+        SQL => "
+            SELECT sq.id, sq.ticket_id, sq.create_time, sq.public_survey_key
+            FROM survey_request sq
+                INNER JOIN ticket ON ticket.id = sq.ticket_id
+            WHERE sq.send_time IS NULL
+            ORDER BY sq.create_time DESC",
     );
 
     if ( !$Success ) {
@@ -141,6 +142,10 @@ sub Run {
             );
             if ( !$Success ) {
                 $Self->Print("    <red>Error sending the request</red>\n");
+            }
+            elsif ( $Success eq 'Queue' || $Success eq 'Type' || $Success eq 'Service' ) {
+                $Self->Print("    <red>Error sending the request</red>\n");
+                $Self->Print("    <red>Ticket $Success does not match to assigned survey request.</red>\n");
             }
             else {
                 $Self->Print("    <green>Request is sent successfully.</green>\n");
