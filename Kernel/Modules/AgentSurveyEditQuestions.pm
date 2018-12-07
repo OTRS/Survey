@@ -782,7 +782,7 @@ sub _MaskQuestionOverview {
                 Name => 'SurveyNoQuestionsSaved',
                 Data => {
                     Columns => 5,
-                    }
+                }
             );
         }
 

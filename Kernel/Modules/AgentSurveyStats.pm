@@ -205,7 +205,7 @@ sub Run {
                     Data => {
                         %{$Row},
                         Class => $Class,
-                        }
+                    }
                 );
             }
         }

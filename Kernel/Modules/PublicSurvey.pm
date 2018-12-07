@@ -377,7 +377,7 @@ sub Run {
                     Data => {
                         %{$Row},
                         Class => $Class,
-                        }
+                    }
                 );
             }
         }
@@ -419,7 +419,7 @@ sub Run {
                 Name => 'ShowAnswersButton',
                 Data => {
                     PublicSurveyKey => $PublicSurveyKey,
-                    }
+                }
             );
         }
     }
@@ -557,7 +557,7 @@ END
                         ErrorText    => $ErrorText || '',
                         Class        => $Class,
                         RequiredText => $RequiredText,
-                        }
+                    }
                 );
             }
             elsif ( $Question->{Type} eq 'Radio' ) {
@@ -568,7 +568,7 @@ END
                         ErrorText    => $ErrorText || '',
                         Class        => $Class,
                         RequiredText => $RequiredText,
-                        }
+                    }
                 );
                 my @AnswerList = $Self->{SurveyObject}->AnswerList(
                     QuestionID => $Question->{QuestionID},
@@ -600,7 +600,7 @@ END
                         ErrorText    => $ErrorText || '',
                         Class        => $Class,
                         RequiredText => $RequiredText,
-                        }
+                    }
                 );
                 my @AnswerList = $Self->{SurveyObject}->AnswerList(
                     QuestionID => $Question->{QuestionID},
@@ -637,7 +637,7 @@ END
                         Class        => $Class,
                         RequiredText => $RequiredText,
                         Value        => $Value,
-                        }
+                    }
                 );
 
                 # check if rich text is enabled
