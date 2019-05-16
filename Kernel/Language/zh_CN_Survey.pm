@@ -188,6 +188,8 @@ sub Data {
     $Self->{Translation}->{'Parameters for the pages (in which the surveys are shown) of the small survey overview.'} =
         '调查概览简洁模式显示调查的页面参数。';
     $Self->{Translation}->{'Public Survey.'} = '公共调查。';
+    $Self->{Translation}->{'Select how many notifications should be shown in Survey Overview "Small" by default.'} =
+        '';
     $Self->{Translation}->{'Shows a link in the menu to edit a survey in its zoom view of the agent interface.'} =
         '在服务人员界面调查详情窗口，在菜单中显示一个编辑调查的链接。';
     $Self->{Translation}->{'Shows a link in the menu to edit survey questions in its zoom view of the agent interface.'} =

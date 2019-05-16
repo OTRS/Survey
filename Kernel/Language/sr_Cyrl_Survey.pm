@@ -145,6 +145,9 @@ sub Data {
     $Self->{Translation}->{'A module to edit survey questions.'} = 'Модул за уређивање анкетних питања.';
     $Self->{Translation}->{'All parameters for the Survey object in the agent interface.'} =
         'Сви параметри Објекта анкете у интерфејсу оператера.';
+    $Self->{Translation}->{'Allows generic agent to execute custom command line scripts.'} =
+        '';
+    $Self->{Translation}->{'Allows generic agent to execute custom modules.'} = '';
     $Self->{Translation}->{'Amount of days after sending a survey mail in which no new survey requests are sent to the same customer. Selecting 0 will always send the survey mail.'} =
         'Број дана после слања имејла о анкети за које истом кориснику неће бити слани нови захтеви. Ако изаберете 0 имејл о анкети се увек шаље.';
     $Self->{Translation}->{'Default body for the notification email to customers about new survey.'} =
@@ -188,6 +191,8 @@ sub Data {
     $Self->{Translation}->{'Parameters for the pages (in which the surveys are shown) of the small survey overview.'} =
         'Параметри страница (на којима су анкете видљиве) на малом приказу прегледа анкета.';
     $Self->{Translation}->{'Public Survey.'} = 'Јавна анкета.';
+    $Self->{Translation}->{'Select how many notifications should be shown in Survey Overview "Small" by default.'} =
+        '';
     $Self->{Translation}->{'Shows a link in the menu to edit a survey in its zoom view of the agent interface.'} =
         'У менију приказује везу за уређивање анкете у детаљном приказу интерфејса оператера.';
     $Self->{Translation}->{'Shows a link in the menu to edit survey questions in its zoom view of the agent interface.'} =

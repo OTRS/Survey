@@ -188,6 +188,8 @@ sub Data {
     $Self->{Translation}->{'Parameters for the pages (in which the surveys are shown) of the small survey overview.'} =
         'Параметры страницы (на которой отображаются опросы) при обзоре опросов в small формате.';
     $Self->{Translation}->{'Public Survey.'} = 'Общедоступный опрос.';
+    $Self->{Translation}->{'Select how many notifications should be shown in Survey Overview "Small" by default.'} =
+        '';
     $Self->{Translation}->{'Shows a link in the menu to edit a survey in its zoom view of the agent interface.'} =
         'Показывает пункт меню, позволяющий редактировать опрос при его подробном просмотре в интерфейсе агента.';
     $Self->{Translation}->{'Shows a link in the menu to edit survey questions in its zoom view of the agent interface.'} =
